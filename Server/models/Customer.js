@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 const CustomerSchema = mongoose.Schema({
   Name: {
@@ -14,7 +14,7 @@ const CustomerSchema = mongoose.Schema({
     required: false,
   },
   "Phone number": {
-    type: Number,
+    type: String,
     required: false,
   },
   Address: {
@@ -30,4 +30,4 @@ const CustomerSchema = mongoose.Schema({
   ],
 });
 
-export const customer = mongoose.model("Customer", CustomerSchema);
+module.exports = mongoose.model("Customer", CustomerSchema);
