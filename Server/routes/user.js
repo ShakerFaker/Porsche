@@ -104,7 +104,7 @@ router.post("/makeOrder", authenticateToken, async (req, res) => {
         const p = await product.findOne({ _id: req.body.products[i] });
         if (!p) res.status(404).send({ message: "Product not found" });
         if (p.Stock === 0)
-          res.status(403).send({ message: ${p.Name} is out of stock });
+          res.status(403).send({ message: `${p.Name} is out of stock` });
         p.Stock--;
         await p.save();
         sum += p.Price;
@@ -201,3 +201,53 @@ router.get("/getOrders", authenticateToken, async (req, res) => {
 });
 
 //END OF SHAKER PART
+
+//NAGAR & MUHAMMAD
+
+//Public APIs
+//app.use(bodyParser.json());
+// Endpoint to get all products
+router.get("/Products", async (req, res) => {
+  try {
+    const products = await product.find().sort({ Name: 1 }); // Use Mongoose to find and sort
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ error: "Could not fetch products" });
+  }
+});
+
+// Endpoint to search for products by name
+router.get("/products/search", async (req, res) => {
+  const { Name } = req.body; // Get name from query parameter
+
+  if (!Name) {
+    return res.status(400).json({ error: "Name parameter is required" });
+  }
+
+  try {
+    const products = await product.find({ Name: Name }).sort({ Name: 1 }); // Use Mongoose to find and sort
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ error: "Could not fetch products" });
+  }
+});
+
+// Endpoint to get details of a specific product by ID
+router.get("/Products/:id", async (req, res) => {
+  const id = req.body._id;
+
+  try {
+    const productDetails = await product.findById(id); // Use Mongoose to find by ID
+
+    if (!productDetails) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.status(200).json(productDetails);
+  } catch (err) {
+    res.status(500).json({ error: "Could not fetch product details" });
+  }
+});
+//END OF NAGAR & MUHAMMAD PART
+
+module.exports = router;
