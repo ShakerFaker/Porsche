@@ -89,3 +89,115 @@ router.delete("/products/:productId", authenticateToken, async (req, res) => {
 });
 
 // END OF SARA PART
+
+//SHAKER PART
+router.post("/makeOrder", authenticateToken, async (req, res) => {
+  if (req.user.role === "user") {
+    try {
+      //Check if customers exists
+      const orderer = await customer.findOne({ _id: req.body.customerID });
+      if (!orderer) return res.status(404).send({ message: "User not found" });
+      //Loop on products to see whether they are available or not and calculate their combined price
+      //Update the stock
+      let sum = 0;
+      for (let i = 0; i < req.body.products.length; i++) {
+        const p = await product.findOne({ _id: req.body.products[i] });
+        if (!p) res.status(404).send({ message: "Product not found" });
+        if (p.Stock === 0)
+          res.status(403).send({ message: ${p.Name} is out of stock });
+        p.Stock--;
+        await p.save();
+        sum += p.Price;
+      }
+      //Create new order record
+      const newOrder = {
+        customerID: req.body.customerID,
+        products: req.body.products,
+        total: sum,
+        createdAt: new Date(),
+        status: "Pending",
+      };
+      const success = await order.create(newOrder);
+      orderer.Orders.push(success._id);
+      await orderer
+        .save()
+        .then((c) => console.log(c.Orders[c.Orders.length - 1]))
+        .catch((c) => console.log(error));
+      return res.status(200).send(success);
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send({ message: error.message });
+    }
+  } else return res.status(403).send({ message: "Unauthorized operation" });
+});
+
+router.delete("/deleteOrder", authenticateToken, async (req, res) => {
+  if (req.user.role === "user") {
+    try {
+      const target = await order.findOne({ _id: req.body.orderID });
+      if (!target) return res.status(404).send({ message: "Order not found" });
+      if (target.status !== "Pending")
+        return res.status(403).send({ message: "Cannot delete order" });
+      const orderer = await customer.findOne({ _id: req.body.customerID });
+      let index = -1;
+      for (let i = 0; i < orderer.Orders.length; i++)
+        if (orderer.Orders[i] === req.body.orderID) {
+          index = i;
+          break;
+        }
+      if (index === -1)
+        return res.status(403).send({ message: "Order not found" });
+      orderer.Orders.splice(index, 1);
+      await orderer.save();
+      await order.deleteOne({ _id: target._id });
+      return res.status(200).send({ message: "Order cancelled" });
+    } catch (error) {
+      console.log(error.message);
+      return res.status(500).send({ message: error.message });
+    }
+  } else return res.status(403).send({ message: "Unauthorized operation" });
+});
+
+router.get("/getOrder", async (req, res) => {
+  try {
+    const target = await order.findOne({ _id: req.body.orderID });
+    if (!target) return res.status(404).send({ message: "Order not found" });
+    //Should I check whether the customerId on the order matches the id of the get api caller
+    const client = await customer.findOne({ _id: req.body.customerID });
+    let found = false;
+    for (let i = 0; i < client.Orders.length; i++)
+      if (client.Orders[i] === req.body.orderID) {
+        found = true;
+        break;
+      }
+    return found
+      ? res.status(200).send(target)
+      : res.status(403).send({ message: "Unauthorized operation" });
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).send({ message: error.message });
+  }
+});
+
+router.get("/getOrders", authenticateToken, async (req, res) => {
+  if (req.user.role === "admin") {
+    try {
+      // const client = await customer.findOne({_id: req.body.customerID});
+      // const orders = client.Orders;
+      // const content = [];
+      // for(let i = 0; i < orders.length; i++){
+      //     const o = await order.findOne({_id: orders[i]});
+      //     if(!o)
+      //         continue;
+      //     content.push(o);
+      // }
+      const orders = await order.find();
+      return res.status(200).send(orders);
+    } catch (error) {
+      console.log(error.mesage);
+      return res.status(500).send({ message: error.message });
+    }
+  } else return res.status(403).send({ message: "Unauthorized operation" });
+});
+
+//END OF SHAKER PART
