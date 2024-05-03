@@ -250,4 +250,120 @@ router.get("/Products/:id", async (req, res) => {
 });
 //END OF NAGAR & MUHAMMAD PART
 
+//EXTRA APIS
+
+router.post("/addCustomers", async (req, res) => {
+  try {
+    const customers = req.body;
+    const success = [];
+    for (let i = 0; i < customers.length; i++) {
+      const newCustomer = {
+        Name: customers[i].Name,
+        Email: customers[i].Email,
+        Password: customers[i].Password,
+        "Phone number": customers[i]["Phone number"],
+        Address: customers[i].Address,
+      };
+      const added = await customer.create(newCustomer);
+      success.push(added);
+    }
+
+    return res.status(201).send(success);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+router.get("/getCustomers", async (req, res) => {
+  try {
+    const allCustomers = await customer.find({});
+    return res.status(200).json({
+      count: allCustomers.length,
+      data: allCustomers,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+router.get("/getProducts", async (req, res) => {
+  try {
+    const allProducts = await product.find({});
+    return res.status(200).json({
+      count: allProducts.length,
+      data: allProducts,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+});
+
+
+router.post("/addProducts", async (req, res) => {
+  try {
+    const products = req.body;
+    const success = [];
+    for (let i = 0; i < products.length; i++) {
+      const newProduct = {
+        Name: products[i].Name,
+        Price: products[i].Price,
+        Description: products[i].Description,
+        Stock: products[i].Stock,
+        Category: products[i].Category,
+      };
+      const added = await product.create(newProduct);
+      success.push(added);
+    }
+    return res.status(200).send(success);
+  } catch (error) {
+    console.log(error.message);
+    return res.status(500).send({ message: error.message });
+  }
+});
+
+//API test code
+router.get("/", (req, res) => {
+  res.send("Hello, Worlds!");
+});
+
+// Login endpoint
+router.post("/login", async (req, res) => {
+  try {
+    const email = req.body.Email;
+    const password = req.body.Password;
+    let role = "user";
+    let user = await customer.findOne({ Email: email });
+    console.log(email);
+    console.log(user);
+    if (!user) {
+      user = await admin.findOne({ Email: email });
+      role = "admin";
+      console.log(user);
+      if (!user) return res.status(401).json({ message: "Invalid username" });
+    }
+    console.log(`${user.Password} the pass`);
+    console.log(`${password} jk`);
+    if (password === user.Password) {
+      //const accessToken = jwt.sign({ username: user.Email }, SECRET_KEY);
+      const payload = { role: role };
+      const accessToken = jwt.sign(payload, SECRET_KEY);
+      res.json({ accessToken });
+    }
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Private endpoint
+router.get("/private", authenticateToken, (req, res) => {
+  console.log(`${req.user.role} the role`);
+  if (req.user.role === "admin") {
+    res.json({ message: "This is a private endpoint" });
+  } else res.status(401).json({ message: "Unauthorized Access" });
+});
+
 module.exports = router;
