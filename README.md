@@ -1,8 +1,20 @@
 # Porsche
 Porsche is a car buying website where customers can explore, purchase, test drive, and view details of Porsche cars and accessories.
-
+# technologies used
+### • Node.JS
 # Installation
-you can just Clone the Repository, Install Node.js, Install Dependencies, Open in Browser, Start Node.js Server, Access Node.js API
+you can just follow these steps:
+### Clone the Repository :
+[git clone]([https://github.com/yourusername/porsche.git](https://github.com/MohamedHossam2004/Porsche.git)) 
+### Install Node.js :
+Download and install Node.js from [Link](https://nodejs.org/).
+### Install Dependencies :
+Navigate to the project directory and run: npm install and don't forget to add the env. file 
+### Open in Browser : 
+Open your web browser and navigate to the project directory.
+### Start Node.js Server :
+npm start
+### Access Node.js API
 # Usage
 To use Porsche, follow these steps:
 Login:
