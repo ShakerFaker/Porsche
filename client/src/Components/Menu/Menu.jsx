@@ -11,15 +11,15 @@ const Menu = ({ isOpen, isClosing, onClose }) => {
     gsap.set(menuRef.current, { autoAlpha: 0, x: "-100%" });
     gsap.set(
       menuItemRefs.map((ref) => ref.current),
-      { autoAlpha: 0, x: "-100%" }
+      { autoAlpha: 0, x: "-1000px" }
     );
 
     if (isOpen) {
       const tl = gsap.timeline();
       tl.to(menuRef.current, { x: "0%", duration: 0.5, autoAlpha: 1 }).fromTo(
         menuItemRefs.map((ref) => ref.current),
-        { x: "-500", autoAlpha: 0 },
-        { x: "-120", autoAlpha: 1, stagger: -0.1 }
+        { x: "-1000%", autoAlpha: 0 },
+        { x: "-120", autoAlpha: 1, stagger: -0.2 }
       );
     }
   }, [isOpen]);
@@ -34,7 +34,7 @@ const Menu = ({ isOpen, isClosing, onClose }) => {
       });
       gsap.to(
         menuItemRefs.map((ref) => ref.current),
-        { x: "-500", autoAlpha: 0, stagger: 0.1, duration: 0.5 }
+        { x: "-1000%", autoAlpha: 0, stagger: 0.2, duration: 0.5 }
       );
     }
   }, [isClosing]);

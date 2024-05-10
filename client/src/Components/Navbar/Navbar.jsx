@@ -1,13 +1,11 @@
 import "./Navbar.css";
-import { useState } from "react";
 import logo from "../../assets/porsche-1.svg";
 import Menu from "../Menu/Menu";
-import menuIcon from "../../assets/menu.png"; // replace with your SVG path
-import closeIcon from "../../assets/close.png"; // replace with your SVG path
+import menuIcon from "../../assets/menu.png";
+import closeIcon from "../../assets/close.png";
+import userIcon from "../../assets/user.png";
 
-const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [isClosing, setIsClosing] = useState(false);
+const Navbar = ({ menuOpen, setMenuOpen, isClosing, setIsClosing }) => {
   return (
     <div className="navbar-container">
       <nav className="navbar">
@@ -19,7 +17,7 @@ const Navbar = () => {
               setTimeout(() => {
                 setMenuOpen(false);
                 setIsClosing(false);
-              }, 1500); // 500ms is the duration of the sliding animation
+              }, 1500);
             } else {
               setMenuOpen(true);
             }
@@ -43,11 +41,13 @@ const Navbar = () => {
         <a href="#" className="logo-container">
           <img src={logo} className="logo" alt="Porsche Logo" />
         </a>
-        <div className="find-car">
-          <a href="#" className="find-car-button">
-            Find a Car
+        <div className="login">
+          <a href="/login" className="login-button">
+            <div className="tooltip-container">
+              <img className="login-img" src={userIcon} alt="user icon" />
+              <span className="tooltip-text">User</span>
+            </div>
           </a>
-          <span className="search-icon">🔍</span>
         </div>
       </nav>
     </div>
