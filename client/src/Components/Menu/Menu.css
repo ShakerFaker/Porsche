@@ -1,0 +1,23 @@
+.menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 40%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.7);
+  color: grey;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  gap: 20px;
+  backdrop-filter: blur(40px);
+  font-size: 20px;
+  z-index: 1;
+}
+
+.menu-items {
+  margin-top: 20px;
+  margin-right: 120px;
+}
