@@ -88,3 +88,10 @@
   visibility: visible;
   opacity: 1;
 }
+
+@media (max-width: 1020px) {
+  .navbar {
+    width: 90%;
+    padding: 10px;
+  }
+}
