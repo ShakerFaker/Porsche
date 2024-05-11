@@ -10,7 +10,7 @@ const ProductSchema = mongoose.Schema({
     required: false,
   },
   Description: {
-    type: String,
+    type: Array,
     required: false,
   },
   Stock: {
@@ -21,6 +21,10 @@ const ProductSchema = mongoose.Schema({
     type: String,
     reqiured: false,
   },
+  Images: {
+    type: Array,
+    required: false
+  }
 });
 
 module.exports = mongoose.model("Product", ProductSchema);
