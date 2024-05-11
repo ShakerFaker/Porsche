@@ -38,10 +38,10 @@ const Navbar = ({ menuOpen, setMenuOpen, isClosing, setIsClosing }) => {
             onClose={() => setMenuOpen(false)}
           />
         )}
-        <a href="#" className="logo-container">
+        <a href="/" className="logo-container">
           <img src={logo} className="logo" alt="Porsche Logo" />
         </a>
-        <div className="login">
+        <div className="login-access">
           <a href="/login" className="login-button">
             <div className="tooltip-container">
               <img className="login-img" src={userIcon} alt="user icon" />

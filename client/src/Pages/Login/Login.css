@@ -1,0 +1,52 @@
+.container {
+  display: flex;
+  height: 100vh;
+  background-color: #000;
+}
+
+.image-container {
+  max-width: 50%; /* Set the width to 50% */
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url("../../assets/login-wallpaper.jpg") no-repeat center center;
+  background-size: cover;
+}
+
+/* Other styles... */
+
+.login {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #333;
+  color: #fff;
+}
+
+@media (max-width: 1050px) {
+  .container {
+    background: url("../../assets/login-wallpaper.jpg") no-repeat center center
+      fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
+  .image-container {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    background: none;
+  }
+
+  .login {
+    width: 100%;
+  }
+}
