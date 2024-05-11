@@ -1,0 +1,36 @@
+.background-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+.snap-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+}
+
+.snap-section {
+  position: relative;
+  height: 100vh;
+  scroll-snap-align: start;
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.centered-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+}

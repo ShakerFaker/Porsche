@@ -1,0 +1,22 @@
+.button {
+  background-color: white;
+  color: black;
+  border-radius: 25px;
+  padding: 12px 80px; /* Increase horizontal padding */
+  font-size: 12px;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+@media (max-width: 1020px) {
+  h1 {
+    font-size: 60px !important;
+    text-align: center;
+  }
+}
