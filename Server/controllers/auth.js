@@ -89,7 +89,8 @@ const login = async (req, res) => {
       //const accessToken = jwt.sign({ username: user.Email }, SECRET_KEY);
       const payload = { role: role };
       const accessToken = jwt.sign(payload, process.env.SECRET_KEY);
-      res.json({ accessToken });
+      let _id = user._id ;
+      res.json({ accessToken, role, _id });
     } else {
       res.status(401).json({ message: "wrong password" });
     }
@@ -98,5 +99,6 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 module.exports = { register, registerAdmin, login };
