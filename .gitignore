@@ -24,4 +24,4 @@ client/*.suo
 client/*.ntvs*
 client/*.njsproj
 client/*.sln
-client/*.sw?
+client/*.sw?client/node_modules/
