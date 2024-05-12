@@ -4,6 +4,7 @@ import Menu from "../Menu/Menu";
 import menuIcon from "../../assets/menu.png";
 import closeIcon from "../../assets/close.png";
 import userIcon from "../../assets/user.png";
+import { Link } from "react-router-dom";
 
 const Navbar = ({ menuOpen, setMenuOpen, isClosing, setIsClosing }) => {
   return (
@@ -35,19 +36,27 @@ const Navbar = ({ menuOpen, setMenuOpen, isClosing, setIsClosing }) => {
           <Menu
             isOpen={menuOpen}
             isClosing={isClosing}
-            onClose={() => setMenuOpen(false)}
+            setIsClosing={setIsClosing}
+            setMenuOpen={setMenuOpen}
+            onClose={() => {
+              setIsClosing(true);
+              setTimeout(() => {
+                setMenuOpen(false);
+                setIsClosing(false);
+              }, 1500);
+            }}
           />
         )}
-        <a href="/" className="logo-container">
+        <Link to="/" className="logo-container">
           <img src={logo} className="logo" alt="Porsche Logo" />
-        </a>
+        </Link>
         <div className="login-access">
-          <a href="/login" className="login-button">
+          <Link to="/login" className="login-button">
             <div className="tooltip-container">
               <img className="login-img" src={userIcon} alt="user icon" />
               <span className="tooltip-text">User</span>
             </div>
-          </a>
+          </Link>
         </div>
       </nav>
     </div>
