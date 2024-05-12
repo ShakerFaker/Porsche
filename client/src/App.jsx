@@ -14,6 +14,7 @@ const App = () => {
   const [isLogged, setIsLogged] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isGuest, setIsGuest] = useState(true);
+  const [userId, setUserId] = useState(null);
 
   return (
     <Router>
@@ -30,10 +31,40 @@ const App = () => {
               path="/"
               element={<Home menuOpen={menuOpen} isClosing={isClosing} />}
             />
-            <Route path="/login" element={<Login />} />
+            <Route
+              path="/login"
+              element={
+                <Login
+                  setIsLogged={setIsLogged}
+                  setIsAdmin={setIsAdmin}
+                  setIsGuest={setIsGuest}
+                  setUserId={setUserId}
+                />
+              }
+            />
             <Route path="/register" element={<Register />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/orders" element={<Orders />} />
+            <Route
+              path="/products"
+              element={
+                <Products
+                  isLogged={isLogged}
+                  isAdmin={isAdmin}
+                  isGuest={isGuest}
+                  userId={userId}
+                />
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <Orders
+                  isLogged={isLogged}
+                  isAdmin={isAdmin}
+                  isGuest={isGuest}
+                  userId={userId}
+                />
+              }
+            />
           </Routes>
         </div>
       </div>
