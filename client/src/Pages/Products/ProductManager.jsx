@@ -10,14 +10,19 @@ const ProductManager = ({theProduct, setTheProduct}) => {
     const handleClick = () =>{
         setName('Alaa');
     }
-    const [ editState, setEditState ] = useState(false);
-    const { Name = "", Category = "", Price = 0, Stock = 0, Images = [] } =  {};
 
-    const [editedProduct, setEditedProduct] = useState(null);
+    const [ editState, setEditState ] = useState(false);
+
+    const [editedProductName, setEditedProductName] = useState(theProduct.Name);
+    const [editedProductPrice, setEditedProductPrice] = useState(theProduct.Price);
+    const [editedProductDescription, setEditedProductDescription] = useState(theProduct.Description);
+    const [editedProductStock, setEditedProductStock] = useState(theProduct.Stock);
+    const [editedProductCategory, setEditedProductCategory] = useState(theProduct.Category);
+    const [editedProductImages, setEditedProductImages] = useState(theProduct.Images);
+
 
     const handleEdit = () => { 
         setEditState(!editState);
-        console.log(editedProduct);
         
          fetch(`http://localhost:3000/user/products`, {
         method: 'PUT',
@@ -29,12 +34,14 @@ const ProductManager = ({theProduct, setTheProduct}) => {
             
                 _id: "663389ff0f13e865ab4caa09", // Change this to product._id
                 updates:{
-                    "Name": editedProduct
+                    "Name": editedProductName,
+                    "Price": editedProductPrice,
+                    "Description": editedProductDescription,
+                    "Stock": editedProductStock,
+                    "Category": editedProductCategory,
+                    "Images": editedProductImages
                 }
-                
-                
-                
-           
+                   
         }),
         })
         .then((res) => {
@@ -53,8 +60,10 @@ const ProductManager = ({theProduct, setTheProduct}) => {
         
 
     }
-    const productId = '663389ff0f13e865ab4caa09';
+    
     /*
+    Unused fetch product by ID
+    const productId = '663389ff0f13e865ab4caa09';
     useEffect(() => {
         fetch(`http://localhost:3000/user/Products/?id=${productId}`, {
             method: 'GET',
@@ -77,17 +86,76 @@ const ProductManager = ({theProduct, setTheProduct}) => {
       
       const edits = 
       <div>
+        <div class="inputBox">
+        <div class="border">
+         
+          <div>
+          <span className='text'>Name :</span>
           <input className="input-field"
-      type="Edits"
-      placeholder="Name"
-      value={editedProduct}
-      onChange={(e) => setEditedProduct(e.target.value)}
+            type="Edits"
+            id="editedProductName"
+            placeholder="Name"
+            value={editedProductName}
+            onChange={(e) => setEditedProductName(e.target.value)}
       
-    />
-    <button className="submit" onClick={handleEdit}>Submit</button>
+           />
+           </div>
+           <div>
+           <span className='text'>Price :</span>
+           <input className="input-field"
+            type="Edits"
+            placeholder="Price"
+            value={editedProductPrice}
+            onChange={(e) => setEditedProductPrice(e.target.value)}
+      
+           />
+           </div>
+           <div>
+           <span className='text'>Description :</span>
+           <input className="input-field"
+            type="Edits"
+            placeholder="Description"
+            value={editedProductDescription}
+            onChange={(e) => setEditedProductDescription(e.target.value)}
+      
+           />
+           </div>
+           <div>
+           <span className='text'>Stock :</span>
+           <input className="input-field"
+            type="Edits"
+            placeholder="Stock"
+            value={editedProductStock}
+            onChange={(e) => setEditedProductStock(e.target.value)}
+      
+           />
+           </div>
+           <div>
+           <span className='text'>Category :</span>
+           <input className="input-field"
+            type="Edits"
+            placeholder="Category"
+            value={editedProductCategory}
+            onChange={(e) => setEditedProductCategory(e.target.value)}
+      
+           />
+           </div>
+           <div>
+           <span className='text'>Images :</span>
+           <input className="input-field"
+            type="Edits"
+            placeholder="Images"
+            value={editedProductImages}
+            onChange={(e) => setEditedProductImages(e.target.value)}
+      
+           />
+           </div>
+          </div>
+          <button className="button-85" onClick={handleEdit}>Submit</button>
+          </div>
+   
     
     </div>
-    //onChange={(e) => handleEdit(editResult)}
     return ( 
     <div>
     <div className="name">Hello {name}</div>
@@ -113,12 +181,14 @@ const ProductManager = ({theProduct, setTheProduct}) => {
           
         }
       </div>
-      <button className="buy">Buy</button>
-      <button className="edit" onClick={handleEdit}>Edit</button>
-      <button className="delete">Delete</button>
-        
-        
+      <div className='center'>
+      <div className="buttons"><button className="button-85">Buy</button></div>
+      <div className="buttons"><button className="button-85" onClick={handleEdit}>Edit</button></div>
+      <div className="buttons"><button className="button-85">Delete</button></div>
+      </div>
+         
       {editState &&  edits}
+
     </div>
     );
 }
