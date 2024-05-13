@@ -1,0 +1,103 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #281432;
+}
+
+.input-container {
+  position: relative;
+  width: 594.25px;
+  margin: auto; /* Center the input container */
+  display: flex;
+}
+
+.input-label {
+  position: absolute;
+  top: 13px;
+  left: 5px;
+  transition: all 0.3s ease;
+  color: #ffffff;
+}
+
+.input-label.focused {
+  transform: translateY(-35px);
+  font-size: 0.8em;
+}
+
+.catchy-text {
+  margin-bottom: 30px;
+  color: white;
+  font-size: 40px;
+  letter-spacing: 2px;
+}
+
+.catchy-subtext {
+  margin-bottom: 50px;
+  color: white;
+  font-size: 20px;
+  letter-spacing: 2px;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-radius: 10px;
+  padding: 20px;
+  width: 100%;
+  max-width: 594.25px;
+  align-items: center;
+}
+
+.login-form input {
+  background-color: #1b0d2e;
+  border: none;
+  border-bottom: 2px solid #676776;
+  color: white;
+  font-size: 16px;
+  height: 50px;
+  width: 100%;
+  transition: border-bottom 0.25s linear;
+  margin-bottom: 48px;
+}
+
+.login-form button {
+  text-align: center;
+  border-radius: 30px;
+  display: inline-flex;
+  min-height: 46px;
+  padding: 0 16px;
+  width: 276px;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  background-color: #6d30a7;
+  color: #fff;
+  border: none;
+  transition: background-color 0.25s linear;
+}
+
+.login-form button:hover {
+  background-color: #5d1a8a;
+}
+
+.register-prompt {
+  color: white;
+  font-size: 0.8em;
+  text-align: center;
+}
+
+.register-prompt a {
+  color: white;
+}
+
+@media screen and (max-width: 600px) {
+  .login-form,
+  .input-container {
+    font-size: 14px;
+    width: 100%;
+  }
+}
