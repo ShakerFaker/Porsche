@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import "./Products.css"
+import ProductManager from './ProductManager';
 
-const Products = () => {
+const Products = ({theProduct, setTheProduct}) => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState(''); // State for selected filter type
@@ -31,6 +33,11 @@ const Products = () => {
     setFilterType(e.target.value); // Update filter type when dropdown value changes
   };
 
+  const handleOnClick = (product) =>{
+    setTheProduct(product);
+    console.log(product.Name);
+  }
+
   return (
     <div>
       <div className="search-filter-container">
@@ -57,6 +64,15 @@ const Products = () => {
                 <p className="product-type">Type: {product.Category}</p>
                 <p className="product-price">Price: {product.Price +"$"}</p>
                 <p className="product-stock">Stock: {product.Stock}</p>
+                
+                <Link to="/ProductManager" className="editProduct"> <button className="more" 
+                onClick={() => {
+                  handleOnClick(product);
+                  console.log(product.Name);
+                }
+              
+              }>
+                More</button></Link>
               </div>
             </div>
             <div className="product-details">

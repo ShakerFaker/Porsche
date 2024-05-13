@@ -7,6 +7,7 @@ import Register from "./Pages/Register/Register";
 import Products from "./Pages/Products/Products";
 import Orders from "./Pages/Orders/Orders";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import ProductManager from "./Pages/Products/ProductManager";
 
 const App = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -15,6 +16,7 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isGuest, setIsGuest] = useState(true);
   const [userId, setUserId] = useState(null);
+  const [theProduct, setTheProduct] = useState({});
 
   return (
     <Router>
@@ -47,6 +49,8 @@ const App = () => {
               path="/products"
               element={
                 <Products
+                  theProduct={theProduct}
+                  setTheProduct={setTheProduct}
                   isLogged={isLogged}
                   isAdmin={isAdmin}
                   isGuest={isGuest}
@@ -64,6 +68,11 @@ const App = () => {
                   userId={userId}
                 />
               }
+            />
+            <Route path="/ProductManager" 
+            element={<ProductManager
+               theProduct={theProduct}
+                setTheProduct={setTheProduct}/>}
             />
           </Routes>
         </div>
