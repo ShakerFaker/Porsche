@@ -27,7 +27,7 @@ const ProductManager = ({theProduct, setTheProduct}) => {
         },
         body: JSON.stringify({
             
-                _id: "663389ff0f13e865ab4caa09",
+                _id: "663389ff0f13e865ab4caa09", // Change this to product._id
                 updates:{
                     "Name": editedProduct
                 }
