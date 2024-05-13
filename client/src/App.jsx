@@ -31,18 +31,20 @@ const App = () => {
               path="/"
               element={<Home menuOpen={menuOpen} isClosing={isClosing} />}
             />
-            <Route
-              path="/login"
-              element={
-                <Login
-                  setIsLogged={setIsLogged}
-                  setIsAdmin={setIsAdmin}
-                  setIsGuest={setIsGuest}
-                  setUserId={setUserId}
-                />
-              }
-            />
-            <Route path="/register" element={<Register />} />
+            {!isLogged && (
+              <Route
+                path="/login"
+                element={
+                  <Login
+                    setIsLogged={setIsLogged}
+                    setIsAdmin={setIsAdmin}
+                    setIsGuest={setIsGuest}
+                    setUserId={setUserId}
+                  />
+                }
+              />
+            )}
+            {!isLogged && <Route path="/register" element={<Register />} />}
             <Route
               path="/products"
               element={

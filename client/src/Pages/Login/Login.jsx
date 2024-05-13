@@ -1,19 +1,102 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
+import axios from "axios";
+import Cookies from "universal-cookie";
+import gsap from "gsap";
 
-const Login = () => {
+const cookies = new Cookies();
+
+const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
   const [emailFocused, setEmailFocused] = useState(false);
   const [emailValue, setEmailValue] = useState("");
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [passwordValue, setPasswordValue] = useState("");
 
+  const emailRef = useRef(null);
+  const passwordRef = useRef(null);
+  const buttonRef = useRef(null);
+  const textRef = useRef(null);
+  const subtextRef = useRef(null);
+  const registerRef = useRef(null);
+
+  useEffect(() => {
+    gsap.fromTo(
+      [
+        textRef.current,
+        subtextRef.current,
+        emailRef.current,
+        passwordRef.current,
+        buttonRef.current,
+        registerRef.current,
+      ],
+      {
+        x: -100,
+        opacity: 0,
+      },
+      {
+        duration: 0.8,
+        x: 0,
+        opacity: 1,
+        stagger: 0.2,
+        ease: "power3.out",
+      }
+    );
+  }, []);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const configuration = {
+      method: "post",
+      url: "http://localhost:3000/auth/login",
+      data: {
+        Email: emailValue,
+        Password: passwordValue,
+      },
+    };
+    axios(configuration)
+      .then((result) => {
+        console.log(result);
+        cookies.set("token", result.data.token, { path: "/" });
+        cookies.set("userData", result.data.user, { path: "/" });
+        setUserId(result.data.user._id);
+        return result.data.role;
+      })
+      .then((role) => {
+        if (role === "admin") {
+          setIsAdmin(true);
+          setIsGuest(false);
+          setIsLogged(true);
+        } else {
+          setIsAdmin(false);
+          setIsGuest(false);
+          setIsLogged(true);
+        }
+      })
+      .then(() => {
+        window.location.href = "/";
+      })
+      .catch((err) => {
+        if (axios.isCancel(err)) {
+          console.log("Request canceled", err.message);
+        } else if (err.code === "ECONNABORTED") {
+          console.log("Timeout error", err.message);
+        } else {
+          console.log("Some other error: ", err.message);
+        }
+      });
+  };
+
   return (
     <div className="container">
-      <p className="catchy-text">WELCOME BACK!</p>
-      <p className="catchy-subtext">LET'S GET YOU LOGGED IN</p>
+      <p ref={textRef} className="catchy-text">
+        WELCOME BACK!
+      </p>
+      <p ref={subtextRef} className="catchy-subtext">
+        LET'S GET YOU LOGGED IN
+      </p>
       <form className="login-form">
-        <div className="input-container">
+        <div className="input-container" ref={emailRef}>
           <label
             className={`input-label ${
               emailFocused || emailValue ? "focused" : ""
@@ -28,7 +111,7 @@ const Login = () => {
             onChange={(e) => setEmailValue(e.target.value)}
           />
         </div>
-        <div className="input-container">
+        <div className="input-container" ref={passwordRef}>
           <label
             className={`input-label ${
               passwordFocused || passwordValue ? "focused" : ""
@@ -43,10 +126,12 @@ const Login = () => {
             onChange={(e) => setPasswordValue(e.target.value)}
           />
         </div>
-        <p className="register-prompt">
+        <p ref={registerRef} className="register-prompt">
           Not yet registered? <Link to="/register">Register</Link>
         </p>
-        <button type="submit">Login</button>
+        <button ref={buttonRef} type="submit" onClick={(e) => handleSubmit(e)}>
+          Login
+        </button>
       </form>
     </div>
   );
