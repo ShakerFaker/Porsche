@@ -9,11 +9,15 @@ const admin = require("./models/Admin");
 const jwt = require("jsonwebtoken");
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const cors = require("cors");
 require("dotenv").config();
 const SECRET_KEY = "your_secret_key"; // Change this to a secure secret key
 const app = express();
 
+app.use(cors());
+
 app.use(express.json());
+
 
 connectDB();
 
