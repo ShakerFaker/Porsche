@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './Products.css'
 import './ProductManager.css'
 
-const ProductManager = ({theProduct, setTheProduct}) => {
+const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, userId}) => {
 
     console.log(theProduct.Name);
     const [ name, setName ] = useState('loza');
@@ -32,7 +32,7 @@ const ProductManager = ({theProduct, setTheProduct}) => {
         },
         body: JSON.stringify({
             
-                _id: "663389ff0f13e865ab4caa09", // Change this to product._id
+                _id: theProduct._id,
                 updates:{
                     "Name": editedProductName,
                     "Price": editedProductPrice,
@@ -180,14 +180,16 @@ const ProductManager = ({theProduct, setTheProduct}) => {
           </div>
           
         }
-      </div>
       <div className='center'>
       <div className="buttons"><button className="button-85">Buy</button></div>
       <div className="buttons"><button className="button-85" onClick={handleEdit}>Edit</button></div>
       <div className="buttons"><button className="button-85">Delete</button></div>
-      </div>
-         
       {editState &&  edits}
+      </div>
+      </div>
+      
+         
+     
 
     </div>
     );

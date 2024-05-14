@@ -6,8 +6,9 @@ import Login from "./Pages/Login/Login";
 import Register from "./Pages/Register/Register";
 import Products from "./Pages/Products/Products";
 import Orders from "./Pages/Orders/Orders";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import ProductManager from "./Pages/Products/ProductManager";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
 
 const App = () => {
   const [menuOpen, setMenuOpen] = useState(false);
