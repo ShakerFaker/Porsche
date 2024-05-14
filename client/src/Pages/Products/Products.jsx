@@ -6,8 +6,29 @@ import ProductManager from './ProductManager';
 const Products = ({theProduct, setTheProduct}) => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
   const [filterType, setFilterType] = useState(''); // State for selected filter type
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000000 });
+  const [debouncedPriceRange, setDebouncedPriceRange] = useState({ min: 0, max: 10000000 });
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearchTerm(searchTerm);
+    }, 300);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [searchTerm]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedPriceRange(priceRange);
+    }, 500);
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [priceRange]);
+  
   useEffect(() => {
     fetch('http://localhost:3000/user/Products')
       .then((res) => {
@@ -25,12 +46,21 @@ const Products = ({theProduct, setTheProduct}) => {
   }, []);
 
   const filteredProducts = products.filter(product =>
-    product.Name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-    (filterType === '' || product.Category === filterType) // Apply filter based on selected type
+    product.Name.toLowerCase().includes(debouncedSearchTerm.toLowerCase())&&
+    (filterType === '' || product.Category === filterType) &&
+    (product.Price >= debouncedPriceRange.min && product.Price <= debouncedPriceRange.max)
   );
 
   const handleFilterChange = (e) => {
-    setFilterType(e.target.value); // Update filter type when dropdown value changes
+    setFilterType(e.target.value); 
+  };
+
+  const handlePriceChange = (e) => {
+    const { value, name } = e.target;
+    setPriceRange(prevState => ({
+      ...prevState,
+      [name]: parseInt(value)
+    }));
   };
 
   const handleOnClick = (product) =>{
@@ -54,6 +84,19 @@ const Products = ({theProduct, setTheProduct}) => {
           <option value="Accessories">Accessories</option>
         </select>
       </div>
+      <div className="price-filter-container">
+          <label htmlFor="priceScale">Price Range:</label>
+          <input
+            type="range"
+            id="priceScale"
+            name="min"
+            min="0"
+            max="140000"
+            value={priceRange.min}
+            onChange={handlePriceChange}
+          />
+          
+        </div>
       <div className="products-container">
         {filteredProducts.map((product) => (
           <div key={product._id} className="product-box">
