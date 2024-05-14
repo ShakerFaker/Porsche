@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import Navbar from "./Components/Navbar/Navbar";
 import Home from "./Pages/Home/Home";
@@ -15,6 +15,13 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isGuest, setIsGuest] = useState(true);
   const [userId, setUserId] = useState(null);
+
+  useEffect(() => {
+    console.log("isLogged:", isLogged);
+    console.log("isAdmin:", isAdmin);
+    console.log("isGuest:", isGuest);
+    console.log("userId:", userId);
+  }, [isLogged, isAdmin, isGuest, userId]);
 
   return (
     <Router>

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "universal-cookie";
 import gsap from "gsap";
+import { useNavigate } from "react-router-dom";
 
 const cookies = new Cookies();
 
@@ -44,6 +45,8 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
     );
   }, []);
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const configuration = {
@@ -57,13 +60,7 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
     axios(configuration)
       .then((result) => {
         console.log(result);
-        cookies.set("token", result.data.token, { path: "/" });
-        cookies.set("userData", result.data.user, { path: "/" });
-        setUserId(result.data.user._id);
-        return result.data.role;
-      })
-      .then((role) => {
-        if (role === "admin") {
+        if (result.data.role === "admin") {
           setIsAdmin(true);
           setIsGuest(false);
           setIsLogged(true);
@@ -72,9 +69,11 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
           setIsGuest(false);
           setIsLogged(true);
         }
-      })
-      .then(() => {
-        window.location.href = "/";
+        cookies.set("token", result.data.token, { path: "/" });
+        cookies.set("userData", result.data.user, { path: "/" });
+        setUserId(result.data.user._id);
+        navigate("/");
+        return result.data.role;
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
@@ -95,7 +94,7 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
       <p ref={subtextRef} className="catchy-subtext">
         LET'S GET YOU LOGGED IN
       </p>
-      <form className="login-form">
+      <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
         <div className="input-container" ref={emailRef}>
           <label
             className={`input-label ${
