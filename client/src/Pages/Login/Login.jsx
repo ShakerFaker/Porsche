@@ -2,13 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
 
-const cookies = new Cookies();
-
-const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
+const Login = () => {
   const [emailFocused, setEmailFocused] = useState(false);
   const [emailValue, setEmailValue] = useState("");
   const [passwordFocused, setPasswordFocused] = useState(false);
@@ -61,18 +58,16 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
       .then((result) => {
         console.log(result);
         if (result.data.role === "admin") {
-          setIsAdmin(true);
-          setIsGuest(false);
-          setIsLogged(true);
+          localStorage.setItem("isAdmin", "true");
         } else {
-          setIsAdmin(false);
-          setIsGuest(false);
-          setIsLogged(true);
+          localStorage.setItem("isAdmin", "false");
         }
-        cookies.set("token", result.data.token, { path: "/" });
-        cookies.set("userData", result.data.user, { path: "/" });
-        setUserId(result.data.user._id);
-        navigate("/");
+        localStorage.setItem("isLogged", "true");
+        localStorage.setItem("isGuest", "false");
+        localStorage.setItem("token", result.data.accessToken);
+        localStorage.setItem("userData", JSON.stringify(result.data.user));
+        console.log(localStorage.getItem("token"));
+        window.location.href = "/";
         return result.data.role;
       })
       .catch((err) => {
