@@ -28,6 +28,7 @@ const ProductManager = ({ theProduct, setTheProduct }) => {
   const [editedProductImages, setEditedProductImages] = useState(
     theProduct.Images
   );
+  const isAdmin=localStorage.getItem('isAdmin');
 
   const handleEdit = () => {
     setEditState(!editState);
@@ -115,7 +116,18 @@ const ProductManager = ({ theProduct, setTheProduct }) => {
           });
       }, []);
     */
+
+    const handleBuy = () => {
+        if (isAdmin!=='true' && localStorage.getItem('isLogged')==='true'){
+          navigate("/BuyProducts");
+        //rest of code : Shaker
+      }
+        else
+          navigate('/login')
+      };
+    
   const buy = (
+    (!isAdmin && localStorage.getItem('isLogged'))?
     <Link to="/ProductBuy" className="editProduct">
       {" "}
       <button
@@ -127,8 +139,11 @@ const ProductManager = ({ theProduct, setTheProduct }) => {
       >
         More
       </button>
-    </Link>
+    </Link>:
+    <Link to="/login" ></Link>
   );
+
+
 
   const edits = (
     <div>
@@ -228,20 +243,23 @@ const ProductManager = ({ theProduct, setTheProduct }) => {
           </div>
         }
         <div className="center">
+        {isAdmin!=='true' &&(
           <div className="buttons">
-            <button className="button-85">Buy</button>
-          </div>
+            <button className="button-85" onClick={handleBuy}>Buy</button>
+          </div>)}
+          {isAdmin==='true'&&(
           <div className="buttons">
             <button className="button-85" onClick={handleEdit}>
               Edit
             </button>
-          </div>
+          </div>)}
+          {isAdmin==='true' &&(
           <div className="buttons">
             <button className="button-85" onClick={handleDelete}>
               Delete
             </button>
-          </div>
-          {editState && edits}
+          </div>)}
+          { isAdmin==='true' && edits }
         </div>
       </div>
     </div>
