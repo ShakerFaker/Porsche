@@ -83,7 +83,15 @@ const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, 
           });
       }, []);
     */
-      
+      const buy =
+      <Link to="/ProductBuy" className="editProduct"> <button className="more" 
+      onClick={() => {
+        handleOnClick(product);
+        console.log(product.Name);
+      }
+    
+    }>
+      More</button></Link>
       const edits = 
       <div>
         <div class="inputBox">
@@ -184,6 +192,7 @@ const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, 
       <div className="buttons"><button className="button-85" onClick={handleEdit}>Edit</button></div>
       <div className="buttons"><button className="button-85">Delete</button></div>
       {editState &&  edits}
+      
       </div>
       </div>
       
