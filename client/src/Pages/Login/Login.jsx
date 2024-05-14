@@ -2,12 +2,10 @@ import { useState, useEffect, useRef } from "react";
 import "./Login.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
-import Cookies from "universal-cookie";
 import gsap from "gsap";
+import { useNavigate } from "react-router-dom";
 
-const cookies = new Cookies();
-
-const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
+const Login = () => {
   const [emailFocused, setEmailFocused] = useState(false);
   const [emailValue, setEmailValue] = useState("");
   const [passwordFocused, setPasswordFocused] = useState(false);
@@ -44,6 +42,8 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
     );
   }, []);
 
+  const navigate = useNavigate();
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const configuration = {
@@ -57,24 +57,18 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
     axios(configuration)
       .then((result) => {
         console.log(result);
-        cookies.set("token", result.data.token, { path: "/" });
-        cookies.set("userData", result.data.user, { path: "/" });
-        setUserId(result.data.user._id);
-        return result.data.role;
-      })
-      .then((role) => {
-        if (role === "admin") {
-          setIsAdmin(true);
-          setIsGuest(false);
-          setIsLogged(true);
+        if (result.data.role === "admin") {
+          localStorage.setItem("isAdmin", "true");
         } else {
-          setIsAdmin(false);
-          setIsGuest(false);
-          setIsLogged(true);
+          localStorage.setItem("isAdmin", "false");
         }
-      })
-      .then(() => {
+        localStorage.setItem("isLogged", "true");
+        localStorage.setItem("isGuest", "false");
+        localStorage.setItem("token", result.data.accessToken);
+        localStorage.setItem("userData", JSON.stringify(result.data.user));
+        console.log(localStorage.getItem("token"));
         window.location.href = "/";
+        return result.data.role;
       })
       .catch((err) => {
         if (axios.isCancel(err)) {
@@ -95,7 +89,7 @@ const Login = ({ setIsLogged, setIsAdmin, setIsGuest, setUserId }) => {
       <p ref={subtextRef} className="catchy-subtext">
         LET'S GET YOU LOGGED IN
       </p>
-      <form className="login-form">
+      <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
         <div className="input-container" ref={emailRef}>
           <label
             className={`input-label ${

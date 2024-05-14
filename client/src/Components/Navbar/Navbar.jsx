@@ -50,14 +50,26 @@ const Navbar = ({ menuOpen, setMenuOpen, isClosing, setIsClosing }) => {
         <Link to="/" className="logo-container">
           <img src={logo} className="logo" alt="Porsche Logo" />
         </Link>
-        <div className="login-access">
-          <Link to="/login" className="login-button">
-            <div className="tooltip-container">
-              <img className="login-img" src={userIcon} alt="user icon" />
-              <span className="tooltip-text">User</span>
-            </div>
-          </Link>
-        </div>
+        {localStorage.getItem("isLogged") === "false" && (
+          <div className="login-access">
+            <Link to="/login" className="login-button">
+              <div className="tooltip-container">
+                <img className="login-img" src={userIcon} alt="user icon" />
+                <span className="tooltip-text">User</span>
+              </div>
+            </Link>
+          </div>
+        )}
+        {localStorage.getItem("isLogged") === "true" && (
+          <div className="login-access">
+            <Link to="/signout" className="login-button">
+              <div className="tooltip-container">
+                <img className="login-img" src={userIcon} alt="user icon" />
+                <span className="tooltip-text">Sign Out</span>
+              </div>
+            </Link>
+          </div>
+        )}
       </nav>
     </div>
   );

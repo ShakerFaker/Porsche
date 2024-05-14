@@ -32,41 +32,32 @@ const register = async (req, res) => {
 };
 
 const registerAdmin = async (req, res) => {
+  if (req.user.role === "admin") {
+    try {
+      const email = req.body.Email;
+      const password = req.body.Password;
 
-  if (req.user.role ==="admin"){
+      // Check if admin with the provided email already exists
+      const existingAdmin = await admin.findOne({ Email: email });
+      if (existingAdmin) {
+        return res.status(400).json({ message: "Admin already exists" });
+      }
 
-  try {
-   
-    const email = req.body.Email;
-    const password  = req.body.Password;
-
-    // Check if admin with the provided email already exists
-    const existingAdmin = await admin.findOne({ Email: email });
-    if (existingAdmin) {
-      return res.status(400).json({ message: "Admin already exists" });
+      // Create a new admin
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+      const newAdmin = new admin({
+        Email: email,
+        Password: hashedPassword,
+      });
+      const success = await newAdmin.save();
+      return res.status(201).send(success);
+    } catch (error) {
+      console.error("Error registering admin:", error);
+      res.status(500).json({ message: "Internal server error" });
     }
-
-    // Create a new admin
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-    const newAdmin = new admin({
-      Email: email,
-      Password: hashedPassword
-    });
-    const success = await newAdmin.save();
-    return res.status(201).send(success);
-
-  } catch (error) {
-    console.error("Error registering admin:", error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-  }
-  else
-  res.status(500).json({ message: "Not an admin" });
-
+  } else res.status(500).json({ message: "Not an admin" });
 };
-
-
 
 // Login endpoint
 const login = async (req, res) => {
@@ -89,8 +80,7 @@ const login = async (req, res) => {
       //const accessToken = jwt.sign({ username: user.Email }, SECRET_KEY);
       const payload = { role: role };
       const accessToken = jwt.sign(payload, process.env.SECRET_KEY);
-      let _id = user._id ;
-      res.json({ accessToken, role, _id });
+      res.json({ accessToken, role, user });
     } else {
       res.status(401).json({ message: "wrong password" });
     }
@@ -99,6 +89,5 @@ const login = async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
 
 module.exports = { register, registerAdmin, login };

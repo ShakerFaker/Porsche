@@ -1,101 +1,99 @@
-import React, { useState, useEffect } from 'react';
-import './Products.css'
-import './ProductManager.css'
-import { Link } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from "react";
+import "./Products.css";
+import "./ProductManager.css";
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
+const ProductManager = ({ theProduct, setTheProduct }) => {
+  const navigate = useNavigate();
+  console.log(theProduct.Name);
 
-const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, userId}) => {
-    const navigate = useNavigate()
-    console.log(theProduct.Name);
-    
-    const [ newName, setNewName ] = useState();
-    
+  const [newName, setNewName] = useState();
 
-    const [ editState, setEditState ] = useState(false);
+  const [editState, setEditState] = useState(false);
 
-    const [editedProductName, setEditedProductName] = useState(theProduct.Name);
-    const [editedProductPrice, setEditedProductPrice] = useState(theProduct.Price);
-    const [editedProductDescription, setEditedProductDescription] = useState(theProduct.Description);
-    const [editedProductStock, setEditedProductStock] = useState(theProduct.Stock);
-    const [editedProductCategory, setEditedProductCategory] = useState(theProduct.Category);
-    const [editedProductImages, setEditedProductImages] = useState(theProduct.Images);
+  const [editedProductName, setEditedProductName] = useState(theProduct.Name);
+  const [editedProductPrice, setEditedProductPrice] = useState(
+    theProduct.Price
+  );
+  const [editedProductDescription, setEditedProductDescription] = useState(
+    theProduct.Description
+  );
+  const [editedProductStock, setEditedProductStock] = useState(
+    theProduct.Stock
+  );
+  const [editedProductCategory, setEditedProductCategory] = useState(
+    theProduct.Category
+  );
+  const [editedProductImages, setEditedProductImages] = useState(
+    theProduct.Images
+  );
 
+  const handleEdit = () => {
+    setEditState(!editState);
 
-    const handleEdit = () => { 
-        setEditState(!editState);
-        
-         fetch(`http://localhost:3000/user/products`, {
-        method: 'PUT',
-        headers: {
-         'Content-Type': 'application/json',
-         'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTU2Mjg3MzV9.CJH7HsPQ2qfQoQYmsVccH_zlGWa6NfsuWc0WJb7iNbY"
+    fetch(`http://localhost:3000/user/products`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        _id: theProduct._id,
+        updates: {
+          Name: editedProductName,
+          Price: editedProductPrice,
+          Description: editedProductDescription,
+          Stock: editedProductStock,
+          Category: editedProductCategory,
+          Images: editedProductImages,
         },
-        body: JSON.stringify({
-            
-                _id: theProduct._id,
-                updates:{
-                    "Name": editedProductName,
-                    "Price": editedProductPrice,
-                    "Description": editedProductDescription,
-                    "Stock": editedProductStock,
-                    "Category": editedProductCategory,
-                    "Images": editedProductImages
-                }
-                   
-        }),
-        })
-        .then((res) => {
+      }),
+    })
+      .then((res) => {
         if (!res.ok) {
-            throw new Error('Network response was not ok');
+          throw new Error("Network response was not ok");
         }
         return res.json();
-        })
-        .then((data) => {
-        console.log('product created (or updated) ok');
-        setTheProduct(data);
-        })
-        .catch((error) => {
-        console.error('Error creating/updating product:', error);
-        });
-        
-
-    }
-
-    const handleDelete = () =>{
-      fetch(`http://localhost:3000/user/products/:productId`, {
-        method: 'DELETE',
-        headers: {
-         'Content-Type': 'application/json',
-         'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTU2Mjg3MzV9.CJH7HsPQ2qfQoQYmsVccH_zlGWa6NfsuWc0WJb7iNbY"
-        },
-        body: JSON.stringify({
-          productId: theProduct._id,
-        }),
-      })
-      .then((res) => {
-      if (!res.ok) {
-          throw new Error('Network response was not ok');
-      }
-      return res.json();
       })
       .then((data) => {
-      console.log('product deleted succesfully');
-      navigate("/products")
-      //setTheProduct(data);
-
+        console.log("product created (or updated) ok");
+        setTheProduct(data);
       })
       .catch((error) => {
-      console.error('Error creating/updating product:', error);
-      //console.log(error);
+        console.error("Error creating/updating product:", error);
       });
-          
+  };
 
-    }
+  const handleDelete = () => {
+    fetch(`http://localhost:3000/user/products/:productId`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: localStorage.getItem("token"),
+      },
+      body: JSON.stringify({
+        productId: theProduct._id,
+      }),
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        console.log("product deleted succesfully");
+        navigate("/products");
+        //setTheProduct(data);
+      })
+      .catch((error) => {
+        console.error("Error creating/updating product:", error);
+        //console.log(error);
+      });
+  };
 
-    
-    
-    /*
+  /*
     Unused fetch product by ID
     const productId = '663389ff0f13e865ab4caa09';
     useEffect(() => {
@@ -117,129 +115,140 @@ const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, 
           });
       }, []);
     */
-      const buy =
-      <Link to="/ProductBuy" className="editProduct"> <button className="more" 
-      onClick={() => {
-        handleOnClick(product);
-        console.log(product.Name);
-      }
-    
-    }>
-      More</button></Link>
+  const buy = (
+    <Link to="/ProductBuy" className="editProduct">
+      {" "}
+      <button
+        className="more"
+        onClick={() => {
+          handleOnClick(product);
+          console.log(product.Name);
+        }}
+      >
+        More
+      </button>
+    </Link>
+  );
 
-      const edits = 
-      <div>
-        <div className="inputBox">
-        <div className="border">
-         
-          <div>
-          <span className='text'>Name :</span>
-          <input className="input-field"
-            type="Edits"
-            id="editedProductName"
-            placeholder="Name"
-            value={editedProductName}
-            onChange={(e) => setEditedProductName(e.target.value)}
-      
-           />
-           </div>
-           <div>
-           <span className='text'>Price :</span>
-           <input className="input-field"
-            type="Edits"
-            placeholder="Price"
-            value={editedProductPrice}
-            onChange={(e) => setEditedProductPrice(e.target.value)}
-      
-           />
-           </div>
-           <div>
-           <span className='text'>Description :</span>
-           <input className="input-field"
-            type="Edits"
-            placeholder="Description"
-            value={editedProductDescription}
-            onChange={(e) => setEditedProductDescription(e.target.value)}
-      
-           />
-           </div>
-           <div>
-           <span className='text'>Stock :</span>
-           <input className="input-field"
-            type="Edits"
-            placeholder="Stock"
-            value={editedProductStock}
-            onChange={(e) => setEditedProductStock(e.target.value)}
-      
-           />
-           </div>
-           <div>
-           <span className='text'>Category :</span>
-           <input className="input-field"
-            type="Edits"
-            placeholder="Category"
-            value={editedProductCategory}
-            onChange={(e) => setEditedProductCategory(e.target.value)}
-      
-           />
-           </div>
-           <div>
-           <span className='text'>Images :</span>
-           <input className="input-field"
-            type="Edits"
-            placeholder="Images"
-            value={editedProductImages}
-            onChange={(e) => setEditedProductImages(e.target.value)}
-      
-           />
-           </div>
-          </div>
-          <button className="button-85" onClick={handleEdit}>Submit</button>
-          </div>
-   
-    
-    </div>
-    return ( 
+  const edits = (
     <div>
-   
-    <div className="product-container">
-        {   
-          
+      <div className="inputBox">
+        <div className="border">
+          <div>
+            <span className="text">Name :</span>
+            <input
+              className="input-field"
+              type="Edits"
+              id="editedProductName"
+              placeholder="Name"
+              value={editedProductName}
+              onChange={(e) => setEditedProductName(e.target.value)}
+            />
+          </div>
+          <div>
+            <span className="text">Price :</span>
+            <input
+              className="input-field"
+              type="Edits"
+              placeholder="Price"
+              value={editedProductPrice}
+              onChange={(e) => setEditedProductPrice(e.target.value)}
+            />
+          </div>
+          <div>
+            <span className="text">Description :</span>
+            <input
+              className="input-field"
+              type="Edits"
+              placeholder="Description"
+              value={editedProductDescription}
+              onChange={(e) => setEditedProductDescription(e.target.value)}
+            />
+          </div>
+          <div>
+            <span className="text">Stock :</span>
+            <input
+              className="input-field"
+              type="Edits"
+              placeholder="Stock"
+              value={editedProductStock}
+              onChange={(e) => setEditedProductStock(e.target.value)}
+            />
+          </div>
+          <div>
+            <span className="text">Category :</span>
+            <input
+              className="input-field"
+              type="Edits"
+              placeholder="Category"
+              value={editedProductCategory}
+              onChange={(e) => setEditedProductCategory(e.target.value)}
+            />
+          </div>
+          <div>
+            <span className="text">Images :</span>
+            <input
+              className="input-field"
+              type="Edits"
+              placeholder="Images"
+              value={editedProductImages}
+              onChange={(e) => setEditedProductImages(e.target.value)}
+            />
+          </div>
+        </div>
+        <button className="button-85" onClick={handleEdit}>
+          Submit
+        </button>
+      </div>
+    </div>
+  );
+  return (
+    <div>
+      <div className="product-container">
+        {
           <div key={theProduct._id} className="product-box">
             <div className="product-image-container">
-              <img src={theProduct.Images[0]} alt={theProduct.Name} className="product-image" />
+              <img
+                src={theProduct.Images[0]}
+                alt={theProduct.Name}
+                className="product-image"
+              />
               <div className="product-info">
                 <p className="product-name">{theProduct.Name}</p>
                 <p className="product-type">Type: {theProduct.Category}</p>
-                <p className="product-price">Price: {theProduct.Price +"$"}</p>
+                <p className="product-price">Price: {`${theProduct.Price}$`}</p>
                 <p className="product-stock">Stock: {theProduct.Stock}</p>
-                
               </div>
-            </div> 
+            </div>
             <div className="product-details">
-              <p className="description-hidden">Description: {theProduct.Description}</p>
+              <p className="description-hidden">
+                Description: {theProduct.Description}
+              </p>
             </div>
           </div>
-          
         }
-      <div className='center'>
-      <div className="buttons"><button className="button-85" >Buy</button></div>
-      <div className="buttons"><button className="button-85" onClick={handleEdit}>Edit</button></div>
-      <div className="buttons"><button className="button-85" onClick={handleDelete}>Delete</button></div>
-      {editState &&  edits}
-      
+        <div className="center">
+          <div className="buttons">
+            <button className="button-85">Buy</button>
+          </div>
+          <div className="buttons">
+            <button className="button-85" onClick={handleEdit}>
+              Edit
+            </button>
+          </div>
+          <div className="buttons">
+            <button className="button-85" onClick={handleDelete}>
+              Delete
+            </button>
+          </div>
+          {editState && edits}
+        </div>
       </div>
-      </div>
-      
-         
-     
-
     </div>
-    );
-}
- 
+  );
+};
+
 export default ProductManager;
- 
 
 /*
 
