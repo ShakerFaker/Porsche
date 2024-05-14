@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import './Products.css'
 import './ProductManager.css'
+import { Link } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
+
 
 const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, userId}) => {
-
+    const navigate = useNavigate()
     console.log(theProduct.Name);
-    const [ name, setName ] = useState('loza');
+    
     const [ newName, setNewName ] = useState();
-    const handleClick = () =>{
-        setName('Alaa');
-    }
+    
 
     const [ editState, setEditState ] = useState(false);
 
@@ -60,6 +61,39 @@ const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, 
         
 
     }
+
+    const handleDelete = () =>{
+      fetch(`http://localhost:3000/user/products/:productId`, {
+        method: 'DELETE',
+        headers: {
+         'Content-Type': 'application/json',
+         'Authorization': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3MTU2Mjg3MzV9.CJH7HsPQ2qfQoQYmsVccH_zlGWa6NfsuWc0WJb7iNbY"
+        },
+        body: JSON.stringify({
+          productId: theProduct._id,
+        }),
+      })
+      .then((res) => {
+      if (!res.ok) {
+          throw new Error('Network response was not ok');
+      }
+      return res.json();
+      })
+      .then((data) => {
+      console.log('product deleted succesfully');
+      navigate("/products")
+      //setTheProduct(data);
+
+      })
+      .catch((error) => {
+      console.error('Error creating/updating product:', error);
+      //console.log(error);
+      });
+          
+
+    }
+
+    
     
     /*
     Unused fetch product by ID
@@ -92,10 +126,11 @@ const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, 
     
     }>
       More</button></Link>
+
       const edits = 
       <div>
-        <div class="inputBox">
-        <div class="border">
+        <div className="inputBox">
+        <div className="border">
          
           <div>
           <span className='text'>Name :</span>
@@ -188,9 +223,9 @@ const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, 
           
         }
       <div className='center'>
-      <div className="buttons"><button className="button-85">Buy</button></div>
+      <div className="buttons"><button className="button-85" >Buy</button></div>
       <div className="buttons"><button className="button-85" onClick={handleEdit}>Edit</button></div>
-      <div className="buttons"><button className="button-85">Delete</button></div>
+      <div className="buttons"><button className="button-85" onClick={handleDelete}>Delete</button></div>
       {editState &&  edits}
       
       </div>
