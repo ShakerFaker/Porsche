@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import "./Products.css"
 import ProductManager from './ProductManager';
 
-const Products = ({theProduct, setTheProduct}) => {
+const Products = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, userId}) => {
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState('');
@@ -108,7 +108,15 @@ const Products = ({theProduct, setTheProduct}) => {
                 <p className="product-price">Price: {product.Price +"$"}</p>
                 <p className="product-stock">Stock: {product.Stock}</p>
                 
-                <Link to="/ProductManager" className="editProduct"> <button className="more" 
+                
+              </div>
+              
+            </div>
+            
+            <div className="product-details">
+              <p className="description-hidden">Description: {product.Description}</p>
+            </div>
+            <Link to="/ProductManager" className="editProduct"> <button className="more" 
                 onClick={() => {
                   handleOnClick(product);
                   console.log(product.Name);
@@ -116,12 +124,8 @@ const Products = ({theProduct, setTheProduct}) => {
               
               }>
                 More</button></Link>
-              </div>
-            </div>
-            <div className="product-details">
-              <p className="description-hidden">Description: {product.Description}</p>
-            </div>
           </div>
+          
         ))}
       </div>
     </div>

@@ -158,9 +158,8 @@ const ProductManager = ({theProduct, setTheProduct, isLogged, isAdmin, isGuest, 
     </div>
     return ( 
     <div>
-    <div className="name">Hello {name}</div>
-    <button className="changeName" onClick={handleClick}>Click Me!</button>
-    <div className="products-container">
+   
+    <div className="product-container">
         {   
           
           <div key={theProduct._id} className="product-box">
