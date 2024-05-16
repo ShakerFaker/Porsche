@@ -15,6 +15,7 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
     min: 0,
     max: 10000000,
   });
+  const isAdmin=localStorage.getItem('isAdmin');
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -75,6 +76,9 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
     console.log(product.Name);
   };
 
+  const handleAdd = () => {
+      navigate("/addProduct");
+  };
 
   return (
     <div>
@@ -109,6 +113,12 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
           value={priceRange.min}
           onChange={handlePriceChange}
         />
+      </div>
+      <div className="addproduct-button">
+        {isAdmin==='true'&&
+        <button className="button-85" onClick={handleAdd}>
+              Add Product
+        </button>}
       </div>
       <div className="products-container">
         {filteredProducts.map((product) => (

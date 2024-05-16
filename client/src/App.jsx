@@ -9,6 +9,7 @@ import Orders from "./Pages/Orders/Orders";
 import ProductManager from "./Pages/Products/ProductManager";
 import SignOut from "./Pages/SignOut/SignOut";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import AddProduct from "./Pages/Products/AddProduct";
 
 const App = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -85,6 +86,9 @@ const App = () => {
                   boughtProducts={boughtProducts}
                 />
               }
+            />
+            <Route
+            path="/addProduct" element={<AddProduct/>}
             />
             <Route path="/signout" element={<SignOut />} />
           </Routes>
