@@ -67,52 +67,30 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
 
   console.log(user);
   return (
-    <div className="trying">
-      {localStorage.getItem("isAdmin") === "true" &&
-        orders.map((order, index) => (
-          <div className="order" key={order._id}>
-            <h1>Order {index + 1}</h1>
-            <h3>created at {order.createdAt.substring(0, 10)}</h3>
-            <h3>Total price: {order.total}$</h3>
-            <div className="images">
-              {order.products.map((product, index) => (
-                <img
-                  key={index}
-                  src={product.Images[0]}
-                  alt={product.Name}
-                  className="img-small"
-                />
-              ))}
-            </div>
+    <div className='trying'>
+      {localStorage.getItem("isAdmin") === 'true' && orders.map((order, index) => (
+        <div className='order' key={order._id}>
+          <h1>Order {index + 1}</h1>
+          <h3>created at {order.createdAt.substring(0, 10)}</h3>
+          <h3>Total price: {order.total}$</h3>
+          <div className='images'>
+          {order.products.map((product, index) => (
+            <img key={index} src={product.Images[0]} alt={product.Name} className='img-small' />
+          ))}
           </div>
-        ))}
-      {localStorage.getItem("isAdmin") !== "true" &&
-        localStorage.getItem("isLogged") === "true" &&
-        boughtProducts.length > 0 && (
-          <div className="trying">
-            <div className="order">
-              <h1>Items</h1>
-              <div className="images">
-                {boughtProducts.map((product, index) => (
-                  <div key={index} className="product-item">
-                    <div className="flex-container">
-                      <img
-                        src={product.Images[0]}
-                        alt={product.Name}
-                        className="img-small"
-                      />
-                      <p className="theProductEsm">{product.Name}</p>
-                      <p className="theProductPrice">
-                        ${product.Price.toFixed(2)}
-                      </p>
-                    </div>
-                  </div>
-                ))}
+        </div>
+      ))}
+      {localStorage.getItem("isAdmin") !== 'true' && localStorage.getItem("isLogged") === 'true' && boughtProducts.length > 0 && (<div className='trying'>
+        <div className='order'>
+        <h1>Items</h1>
+        <div className='images'>
+          {boughtProducts.map((product, index) => (
+            <div key={index} className='product-item'>
+              <div className="flex-container">
+                <img src={product.Images[0]} alt={product.Name} className='img-small' />
+                <p className='theProductEsm'>{product.Name}</p>
+                <p className='theProductPrice'>${product.Price.toFixed(2)}</p>
               </div>
-              <button className="green-button" onClick={handleConfirmOrder}>
-                Confirm & Deliver
-              </button>
-            </div>
           </div>
         )}
       {lastOrder && (
