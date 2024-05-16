@@ -4,7 +4,12 @@ import "./ProductManager.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const ProductManager = ({ theProduct, setTheProduct, setBoughtProducts, boughtProducts }) => {
+const ProductManager = ({
+  theProduct,
+  setTheProduct,
+  setBoughtProducts,
+  boughtProducts,
+}) => {
   const navigate = useNavigate();
   console.log(theProduct.Name);
 
@@ -28,7 +33,7 @@ const ProductManager = ({ theProduct, setTheProduct, setBoughtProducts, boughtPr
   const [editedProductImages, setEditedProductImages] = useState(
     theProduct.Images
   );
-  const isAdmin=localStorage.getItem('isAdmin');
+  const isAdmin = localStorage.getItem("isAdmin");
 
   const handleEdit = () => {
     setEditState(!editState);
@@ -117,19 +122,17 @@ const ProductManager = ({ theProduct, setTheProduct, setBoughtProducts, boughtPr
       }, []);
     */
 
-    const handleBuy = () => {
-        if (isAdmin!=='true' && localStorage.getItem('isLogged')==='true'){
-          let currentProducts = boughtProducts;
-          console.log("Before: " + currentProducts);
-          currentProducts.push(theProduct);
-          setBoughtProducts(currentProducts);
-          console.log("After: " + boughtProducts);
-          navigate("/products");
-      }
-        else
-          navigate('/login')
-      };
-  
+  const handleBuy = () => {
+    if (isAdmin !== "true" && localStorage.getItem("isLogged") === "true") {
+      let currentProducts = boughtProducts;
+      console.log("Before: " + currentProducts);
+      currentProducts.push(theProduct);
+      setBoughtProducts(currentProducts);
+      console.log("After: " + boughtProducts);
+      navigate("/products");
+    } else navigate("/login");
+  };
+
   // const BottomBand = () => {
   //   return (
   //     <div className={`bottom-band ${totalItems > 0 ? 'visible' : ''}`}>
@@ -138,29 +141,27 @@ const ProductManager = ({ theProduct, setTheProduct, setBoughtProducts, boughtPr
   //     </div>
   //   );
   // };
-    
-  const buy = (
-    (!isAdmin && localStorage.getItem('isLogged'))?
-    <Link to="/ProductBuy" className="editProduct">
-      {" "}
-      <button
-        className="more"
-        onClick={() => {
-          handleOnClick(product);
-          console.log(product.Name);
-        }}
-      >
-        More
-      </button>
-    </Link>:
-    <Link to="/login" ></Link>
-  );
 
-
+  const buy =
+    !isAdmin && localStorage.getItem("isLogged") ? (
+      <Link to="/ProductBuy" className="editProduct">
+        {" "}
+        <button
+          className="more"
+          onClick={() => {
+            handleOnClick(product);
+            console.log(product.Name);
+          }}>
+          More
+        </button>
+      </Link>
+    ) : (
+      <Link to="/login"></Link>
+    );
 
   const edits = (
     <div>
-      <div className="inputBox">
+      <div className="inputBox center">
         <div className="border">
           <div>
             <span className="text">Name :</span>
@@ -224,9 +225,11 @@ const ProductManager = ({ theProduct, setTheProduct, setBoughtProducts, boughtPr
             />
           </div>
         </div>
-        <button className="button-85" onClick={handleEdit}>
-          Submit
-        </button>
+        <div className="submit">
+          <button className="button-80" onClick={handleEdit}>
+            Submit
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -257,23 +260,28 @@ const ProductManager = ({ theProduct, setTheProduct, setBoughtProducts, boughtPr
           </div>
         }
         <div className="center">
-        {isAdmin!=='true' &&(
-          <div className="buttons">
-            <button className="button-85" onClick={handleBuy}>Buy</button>
-          </div>)}
-          {isAdmin==='true'&&(
-          <div className="buttons">
-            <button className="button-85" onClick={handleEdit}>
-              Edit
-            </button>
-          </div>)}
-          {isAdmin==='true' &&(
-          <div className="buttons">
-            <button className="button-85" onClick={handleDelete}>
-              Delete
-            </button>
-          </div>)}
-          { isAdmin==='true' && edits }
+          {isAdmin !== "true" && (
+            <div className="buttons">
+              <button className="button-85" onClick={handleBuy}>
+                Buy
+              </button>
+            </div>
+          )}
+          {isAdmin === "true" && (
+            <div className="buttons">
+              <button className="button-74" onClick={handleEdit}>
+                Edit
+              </button>
+            </div>
+          )}
+          {isAdmin === "true" && (
+            <div className="buttons">
+              <button className="button-74" onClick={handleDelete}>
+                Delete
+              </button>
+            </div>
+          )}
+          {isAdmin === "true" && edits}
         </div>
       </div>
     </div>
