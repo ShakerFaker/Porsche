@@ -1,6 +1,6 @@
 const express = require("express");
 const customer = require("../models/Customer");
-const product = require("../models/Product");
+const { product } = require("../models/Product");
 const order = require("../models/Order");
 const admin = require("../models/Admin");
 const jwt = require("jsonwebtoken");
