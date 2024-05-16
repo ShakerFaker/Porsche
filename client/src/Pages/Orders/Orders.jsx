@@ -71,13 +71,13 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
       {localStorage.getItem("isAdmin") === 'true' && orders.map((order, index) => (
         <div className='order' key={order._id}>
           <h1>Order {index + 1}</h1>
+          <h3>Order by {user.Email}</h3>
           <h3>created at {order.createdAt.substring(0, 10)}</h3>
           <h3>Total price: {order.total}$</h3>
-          <div className='images'>
+          <h3>Products</h3>
           {order.products.map((product, index) => (
-            <img key={index} src={product.Images[0]} alt={product.Name} className='img-small' />
+            <h3>{product.Name + " " + product.Price}</h3>
           ))}
-          </div>
         </div>
       ))}
       {localStorage.getItem("isAdmin") !== 'true' && localStorage.getItem("isLogged") === 'true' && boughtProducts.length > 0 && (<div className='trying'>
@@ -92,24 +92,24 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
                 <p className='theProductPrice'>${product.Price.toFixed(2)}</p>
               </div>
           </div>
-        )}
-      {lastOrder && (
-        <div className="order" key={lastOrder._id}>
+          ))}
+          </div>
+          <button className='green-button' onClick={handleConfirmOrder}>Confirm & Deliver</button>
+          
+        </div>
+        </div>)}
+        {lastOrder && (
+      <div className='order' key={lastOrder._id}>
           <h1>Successful Order</h1>
           <h3>created at {lastOrder.createdAt.substring(0, 10)}</h3>
           <h3>Total price: {lastOrder.total}$</h3>
-          <div className="images">
-            {lastOrder.products.map((product, index) => (
-              <img
-                key={index}
-                src={product.Images[0]}
-                alt={product.Name}
-                className="img-small"
-              />
-            ))}
+          <div className='images'>
+          {lastOrder.products.map((product, index) => (
+            <img key={index} src={product.Images[0]} alt={product.Name} className='img-small' />
+          ))}
           </div>
         </div>
-      )}
+    )}
     </div>
   );
 };
