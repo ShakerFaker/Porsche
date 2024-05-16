@@ -4,7 +4,7 @@ import "./ProductManager.css";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const ProductManager = ({ theProduct, setTheProduct }) => {
+const ProductManager = ({ theProduct, setTheProduct, setBoughtProducts, boughtProducts }) => {
   const navigate = useNavigate();
   console.log(theProduct.Name);
 
@@ -119,12 +119,25 @@ const ProductManager = ({ theProduct, setTheProduct }) => {
 
     const handleBuy = () => {
         if (isAdmin!=='true' && localStorage.getItem('isLogged')==='true'){
-          navigate("/BuyProducts");
-        //rest of code : Shaker
+          let currentProducts = boughtProducts;
+          console.log("Before: " + currentProducts);
+          currentProducts.push(theProduct);
+          setBoughtProducts(currentProducts);
+          console.log("After: " + boughtProducts);
+          navigate("/products");
       }
         else
           navigate('/login')
       };
+  
+  // const BottomBand = () => {
+  //   return (
+  //     <div className={`bottom-band ${totalItems > 0 ? 'visible' : ''}`}>
+  //       <span>{`You have ${totalItems} items in your cart`}</span>
+  //       <button onClick={() => alert('Proceed to checkout')}>Checkout</button>
+  //     </div>
+  //   );
+  // };
     
   const buy = (
     (!isAdmin && localStorage.getItem('isLogged'))?
@@ -217,6 +230,7 @@ const ProductManager = ({ theProduct, setTheProduct }) => {
       </div>
     </div>
   );
+  console.log(theProduct);
   return (
     <div>
       <div className="product-container">

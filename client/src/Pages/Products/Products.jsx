@@ -2,8 +2,10 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./Products.css";
 import ProductManager from "./ProductManager";
+import { useNavigate } from "react-router-dom";
 
-const Products = ({ theProduct, setTheProduct }) => {
+const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts }) => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
@@ -72,6 +74,7 @@ const Products = ({ theProduct, setTheProduct }) => {
     setTheProduct(product);
     console.log(product.Name);
   };
+
 
   return (
     <div>
@@ -144,6 +147,13 @@ const Products = ({ theProduct, setTheProduct }) => {
           </div>
         ))}
       </div>
+      <div className={`bottom-band ${boughtProducts.length > 0 ? 'visible' : ''}`}>
+        <span>{`You have ${boughtProducts.length} items in your cart`}</span>
+        <Link to="/orders">
+        <button onClick={() => {}}>Checkout</button>
+        </Link>
+        <button onClick={() => {setBoughtProducts([])}}>Cancel</button>
+    </div>
     </div>
   );
 };

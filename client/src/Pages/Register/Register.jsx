@@ -62,7 +62,7 @@ const Register = () => {
         Name: nameValue,
         Email: emailValue,
         Password: passwordValue,
-        Phone: phoneValue,
+        'Phone number': phoneValue,
         Address: addressValue,
       },
     };

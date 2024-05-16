@@ -14,6 +14,7 @@ const App = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
   const [theProduct, setTheProduct] = useState({});
+  const [boughtProducts, setBoughtProducts] = useState([]);
 
   useEffect(() => {
     if (localStorage.getItem("isLogged") === null) {
@@ -68,16 +69,20 @@ const App = () => {
                 <Products
                   theProduct={theProduct}
                   setTheProduct={setTheProduct}
+                  boughtProducts={boughtProducts}
+                  setBoughtProducts={setBoughtProducts}
                 />
               }
             />
-            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders" element={<Orders boughtProducts={boughtProducts} setBoughtProducts={setBoughtProducts} />} />
             <Route
               path="/ProductManager"
               element={
                 <ProductManager
                   theProduct={theProduct}
                   setTheProduct={setTheProduct}
+                  setBoughtProducts={setBoughtProducts}
+                  boughtProducts={boughtProducts}
                 />
               }
             />
