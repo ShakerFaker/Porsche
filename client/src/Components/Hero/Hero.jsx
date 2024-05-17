@@ -2,6 +2,7 @@ import "./Hero.css";
 import { useEffect, useRef } from "react";
 import { useInView } from "react-intersection-observer";
 import { gsap } from "gsap";
+import { Link } from "react-router-dom";
 
 const Hero = ({ menuOpen, isClosing, text }) => {
   const [ref, inView] = useInView({
@@ -53,9 +54,11 @@ const Hero = ({ menuOpen, isClosing, text }) => {
         >
           {text}
         </h1>
-        <button className="button" ref={buttonRef}>
-          DISCOVER NOW
-        </button>
+        <Link to="/products">
+          <button className="button" ref={buttonRef}>
+            DISCOVER NOW
+          </button>
+        </Link>
       </div>
     </div>
   );

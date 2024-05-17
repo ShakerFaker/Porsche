@@ -14,6 +14,10 @@
   font-weight: 600;
 }
 
+.button:hover {
+  background-color: #f1f1f1;
+}
+
 @media (max-width: 1020px) {
   h1 {
     font-size: 60px !important;

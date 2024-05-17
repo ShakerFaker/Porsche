@@ -7,8 +7,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
-  width: 100%;
+  width: 80%;
 }
 
 .centering-container {
@@ -17,7 +16,7 @@ body {
   justify-content: top;
   align-items: space-between;
   min-height: 100vh;
-  width: 70%;
+  width: 100%;
 }
 
 .filter {
@@ -34,6 +33,10 @@ body {
   font-size: 20px;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
+}
+
+.bottom-band {
+  width: 100vw !important;
 }
 
 .products-container {
@@ -73,7 +76,7 @@ body {
 }
 .product-info {
   padding: 10px;
-  position: relative; /* Added position relative */
+  position: relative;
 }
 
 .product-name {
@@ -120,6 +123,7 @@ body {
 
 .product-box:hover .description-hidden {
   display: block;
+  max-width: 100%;
 }
 .filter-container {
   position: relative;
