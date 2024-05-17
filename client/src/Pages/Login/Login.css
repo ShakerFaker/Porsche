@@ -37,6 +37,7 @@
   color: white;
   font-size: 40px;
   letter-spacing: 2px;
+  text-align: center;
 }
 
 .catchy-subtext {
@@ -107,7 +108,7 @@
   margin-bottom: 0;
 }
 
-@media screen and (max-width: 600px) {
+@media (max-width: 600px) {
   .login-form,
   .input-container {
     font-size: 14px;

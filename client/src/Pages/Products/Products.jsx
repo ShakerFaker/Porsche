@@ -23,7 +23,7 @@ const Products = ({
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
   const [filterType, setFilterType] = useState(""); // State for selected filter type
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000000 });
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 100000000 });
   const [debouncedPriceRange, setDebouncedPriceRange] = useState({
     min: 0,
     max: 10000000,
@@ -33,7 +33,8 @@ const Products = ({
   useEffect(() => {
     const timer = setTimeout(() => {
       setDebouncedSearchTerm(searchTerm);
-    }, 300);
+    }, 1000);
+
     return () => {
       clearTimeout(timer);
     };
@@ -57,6 +58,7 @@ const Products = ({
         return res.json();
       })
       .then((data) => {
+        console.log(data);
         setProducts(data);
       })
       .catch((error) => {
@@ -93,103 +95,114 @@ const Products = ({
     navigate("/addProduct");
   };
 
- 
-
   return (
-    <div>
-      <div className="search-filter-container">
-        <input
-          className="search-bar"
-          type="text"
-          placeholder="Search for products ..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <select
-          id="type-filter"
-          value={filterType}
-          onChange={handleFilterChange}
-          className="filter-dropdown">
-          <option value="">All</option>
-          <option value="Apparel">Apparel</option>
-          <option value="Cars">Cars</option>
-          <option value="Accessories">Accessories</option>
-        </select>
-      </div>
-      <div className="price-filter-container">
-        <label htmlFor="priceScale">Price Range:</label>
-        <input
-          type="range"
-          id="priceScale"
-          name="min"
-          min="0"
-          max="140000"
-          value={priceRange.min}
-          onChange={handlePriceChange}
-        />
-      </div>
-      <div className="addproduct-button">
-        {isAdmin === "true" && (
-          <button className="button-17" onClick={handleAdd}>
-            Add Product
-          </button>
-        )}
-      </div>
-      <div className="products-container">
-        {filteredProducts.map((product) => (
-          <div key={product._id} className="product-box">
-            <div className="product-image-container">
-              <img
-                src={product.Images[0]}
-                alt={product.Name}
-                className="product-image"
-              />
-              <div className="product-info">
-                <p className="product-name">{product.Name}</p>
-                <p className="product-type">Type: {product.Category}</p>
-                <p className="product-price">Price: {product.Price + "$"}</p>
-                <p className="product-stock">Stock: {product.Stock}</p>
-              </div>
-            </div>
-
-            <div className="product-details">
-              <p className="description-hidden">
-                Description: {product.Description}
-              </p>
-            </div>
-            { (isAdmin === 'true'|| product.Stock > 0) 
-              &&
-              <Link to="/ProductManager" className="editProduct">
-              {" "}
-              <div className="right">
-                <button
-                  className="more button-80"
-                  onClick={() => {
-                    handleOnClick(product);
-                    console.log(product.Name);
-                  }}>
-                  <FontAwesomeIcon icon={faEllipsisVertical} />
-                </button>
-              </div>
-            </Link>
-            
-            } 
-            {(isAdmin === 'false' && product.Stock <= 0) && <div className="right">  <button className="button-80">Not Available</button></div>}
+    <div className="super-container">
+      <div className="centering-container">
+        <div className="filter">
+          <div className="search-filter-container">
+            <input
+              className="search-bar"
+              type="text"
+              placeholder="Search for products ..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+            <select
+              id="type-filter"
+              value={filterType}
+              onChange={handleFilterChange}
+              className="filter-dropdown"
+            >
+              <option value="">All</option>
+              <option value="Apparel">Apparel</option>
+              <option value="Cars">Cars</option>
+              <option value="Accessories">Accessories</option>
+            </select>
           </div>
-        ))}
-      </div>
-      <div
-        className={`bottom-band ${boughtProducts.length > 0 ? "visible" : ""}`}>
-        <span>{`You have ${boughtProducts.length} items in your cart`}</span>
-        <Link to="/orders">
-          <button onClick={() => {}}>Checkout</button>
-        </Link>
-        <button
-          onClick={() => {
-            setBoughtProducts([]);
-          }}>
-          Cancel
-        </button>
+          <div className="price-filter-container">
+            <label htmlFor="priceScale">Price Range:</label>
+            <input
+              type="range"
+              id="priceScale"
+              name="min"
+              min="0"
+              max="140000"
+              value={priceRange.min}
+              onChange={handlePriceChange}
+            />
+          </div>
+          {isAdmin === "true" && (
+            <div className="addproduct-button">
+              <button className="button-17" onClick={handleAdd}>
+                Add Product
+              </button>
+            </div>
+          )}
+        </div>
+        <div className="products-container">
+          {filteredProducts.map((product) => (
+            <div key={product._id} className="product-box">
+              <div className="product-image-container">
+                <img
+                  src={product.Images[0]}
+                  alt={product.Name}
+                  className="product-image"
+                />
+                <div className="product-info">
+                  <p className="product-name">{product.Name}</p>
+                  <p className="product-type">Type: {product.Category}</p>
+                  <p className="product-price">Price: {product.Price + "$"}</p>
+                  <p className="product-stock">Stock: {product.Stock}</p>
+                </div>
+              </div>
+
+              <div className="product-details">
+                <p className="description-hidden">
+                  Description: {product.Description}
+                </p>
+              </div>
+              {(isAdmin === "true" || product.Stock > 0) && (
+                <Link to="/ProductManager" className="editProduct">
+                  {" "}
+                  <div className="right">
+                    <button
+                      className="more button-80"
+                      onClick={() => {
+                        handleOnClick(product);
+                        console.log(product.Name);
+                      }}
+                    >
+                      <FontAwesomeIcon icon={faEllipsisVertical} />
+                    </button>
+                  </div>
+                </Link>
+              )}
+              {isAdmin === "false" && product.Stock <= 0 && (
+                <div className="right">
+                  {" "}
+                  <button className="button-80">Not Available</button>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+        <div
+          className={`bottom-band ${
+            boughtProducts.length > 0 ? "visible" : ""
+          }`}
+        >
+          <span>{`You have ${boughtProducts.length} items in your cart`}</span>
+          <Link to="/orders">
+            <button onClick={() => {}}>Checkout</button>
+          </Link>
+          <button
+            onClick={() => {
+              setBoughtProducts([]);
+            }}
+          >
+            Cancel
+          </button>
+        </div>
       </div>
     </div>
   );

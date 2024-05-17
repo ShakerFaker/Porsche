@@ -6,42 +6,42 @@ import gsap from "gsap";
 import { useNavigate } from "react-router-dom";
 
 const AddProduct = () => {
-const [nameValue, setNameValue] = useState("");
-const [nameFocused, setNameFocused] = useState(false);
-const [priceValue, setPriceValue] = useState("");
-const [priceFocused, setPriceFocused] = useState(false);
-const [stockValue, setStockValue]=useState("");
-const [stockFocused, setStockFocused] = useState(false);
-const [descriptionValue, setDescriptionValue]=useState("");
-const [descriptionFocused, setDescriptionFocused] = useState(false);
-const [categoryValue, setCategoryValue]=useState("");
-const [categoryFocused, setCategoryFocused] = useState(false);
-const [imgValue, setImgValue]=useState("");
-const [imgFocused, setImgFocused] = useState(false);
-const navigate = useNavigate();
+  const [nameValue, setNameValue] = useState("");
+  const [nameFocused, setNameFocused] = useState(false);
+  const [priceValue, setPriceValue] = useState("");
+  const [priceFocused, setPriceFocused] = useState(false);
+  const [stockValue, setStockValue] = useState("");
+  const [stockFocused, setStockFocused] = useState(false);
+  const [descriptionValue, setDescriptionValue] = useState("");
+  const [descriptionFocused, setDescriptionFocused] = useState(false);
+  const [categoryValue, setCategoryValue] = useState("");
+  const [categoryFocused, setCategoryFocused] = useState(false);
+  const [imgValue, setImgValue] = useState("");
+  const [imgFocused, setImgFocused] = useState(false);
+  const navigate = useNavigate();
 
-const handleSubmit = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     const configuration = {
       method: "post",
       url: "http://localhost:3000/user/products",
       headers: {
-        'Authorization': localStorage.getItem("token"),
-        'Content-Type': 'application/json',
+        Authorization: localStorage.getItem("token"),
+        "Content-Type": "application/json",
       },
       data: {
         Name: nameValue,
         Price: priceValue,
         Description: descriptionValue,
-        Stock:stockValue,
-        Category:categoryValue,
-        Images:[imgValue]
+        Stock: stockValue,
+        Category: categoryValue,
+        Images: [imgValue],
       },
     };
     axios(configuration)
       .then((result) => {
         console.log(result);
-        navigate('/products');
+        navigate("/products");
       })
       .catch((err) => {
         console.log(err);
@@ -50,11 +50,9 @@ const handleSubmit = (e) => {
 
   return (
     <div className="container">
-      <p className="catchy-text">
-        ADD A NEW PRODUCT
-      </p>
+      <p className="catchy-text">ADD A NEW PRODUCT</p>
       <form className="login-form" onSubmit={(e) => handleSubmit(e)}>
-        <div className="input-container" >
+        <div className="input-container">
           <label
             className={`input-label ${
               nameFocused || nameValue ? "focused" : ""
@@ -68,7 +66,7 @@ const handleSubmit = (e) => {
             onChange={(e) => setNameValue(e.target.value)}
           />
         </div>
-        <div className="input-container" >
+        <div className="input-container">
           <label
             className={`input-label ${
               priceFocused || priceValue ? "focused" : ""
@@ -82,7 +80,7 @@ const handleSubmit = (e) => {
             onChange={(e) => setPriceValue(e.target.value)}
           />
         </div>
-        <div className="input-container" >
+        <div className="input-container">
           <label
             className={`input-label ${
               descriptionFocused || descriptionValue ? "focused" : ""
@@ -96,7 +94,7 @@ const handleSubmit = (e) => {
             onChange={(e) => setDescriptionValue(e.target.value)}
           />
         </div>
-        <div className="input-container" >
+        <div className="input-container">
           <label
             className={`input-label ${
               stockFocused || stockValue ? "focused" : ""
@@ -110,7 +108,7 @@ const handleSubmit = (e) => {
             onChange={(e) => setStockValue(e.target.value)}
           />
         </div>
-        <div className="input-container" >
+        <div className="input-container">
           <label
             className={`input-label ${
               categoryFocused || categoryValue ? "focused" : ""
@@ -124,11 +122,9 @@ const handleSubmit = (e) => {
             onChange={(e) => setCategoryValue(e.target.value)}
           />
         </div>
-        <div className="input-container" >
+        <div className="input-container">
           <label
-            className={`input-label ${
-              imgFocused || imgValue ? "focused" : ""
-            }`}
+            className={`input-label ${imgFocused || imgValue ? "focused" : ""}`}
           >
             Picture URL
           </label>

@@ -67,49 +67,64 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
 
   console.log(user);
   return (
-    <div className='trying'>
-      {localStorage.getItem("isAdmin") === 'true' && orders.map((order, index) => (
-        <div className='order' key={order._id}>
-          <h1>Order {index + 1}</h1>
-          <h3>Order by {user.Email}</h3>
-          <h3>created at {order.createdAt.substring(0, 10)}</h3>
-          <h3>Total price: {order.total}$</h3>
-          <h3>Products</h3>
-          {order.products.map((product, index) => (
-            <h3>{product.Name + " " + product.Price}</h3>
-          ))}
-        </div>
-      ))}
-      {localStorage.getItem("isAdmin") !== 'true' && localStorage.getItem("isLogged") === 'true' && boughtProducts.length > 0 && (<div className='trying'>
-        <div className='order'>
-        <h1>Items</h1>
-        <div className='images'>
-          {boughtProducts.map((product, index) => (
-            <div key={index} className='product-item'>
-              <div className="flex-container">
-                <img src={product.Images[0]} alt={product.Name} className='img-small' />
-                <p className='theProductEsm'>{product.Name}</p>
-                <p className='theProductPrice'>${product.Price.toFixed(2)}</p>
-              </div>
+    <div className="trying">
+      {localStorage.getItem("isAdmin") === "true" &&
+        orders.map((order, index) => (
+          <div className="order" key={order._id}>
+            <h1>Order {index + 1}</h1>
+            <h3>Order by {user.Email}</h3>
+            <h3>created at {order.createdAt.substring(0, 10)}</h3>
+            <h3>Total price: {order.total}$</h3>
+            <h3>Products</h3>
+            {order.products.map((product, index) => (
+              <h3>{product.Name + " " + product.Price}</h3>
+            ))}
           </div>
-          ))}
+        ))}
+      {localStorage.getItem("isAdmin") !== "true" &&
+        localStorage.getItem("isLogged") === "true" &&
+        boughtProducts.length > 0 && (
+          <div className="order">
+            <h1 className="heading-text">Items</h1>
+            <div className="images">
+              {boughtProducts.map((product, index) => (
+                <div key={index} className="product-item">
+                  <div className="flex-container">
+                    <img
+                      src={product.Images[0]}
+                      alt={product.Name}
+                      className="img-small"
+                    />
+                    <p className="theProductEsm">{product.Name}</p>
+                    <p className="theProductPrice">
+                      ${product.Price.toFixed(2)}
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <button className="green-button" onClick={handleConfirmOrder}>
+              Confirm & Deliver
+            </button>
           </div>
-          <button className='green-button' onClick={handleConfirmOrder}>Confirm & Deliver</button>
-          
-        </div>
-        </div>)}
-        {lastOrder && (
-      <div className='order' key={lastOrder._id}>
+        )}
+      {lastOrder && (
+        <div className="order" key={lastOrder._id}>
           <h1>Successful Order</h1>
           <h3>created at {lastOrder.createdAt.substring(0, 10)}</h3>
           <h3>Total price: {lastOrder.total}$</h3>
-          <div className='images'>
-          {lastOrder.products.map((product, index) => (
-            <img key={index} src={product.Images[0]} alt={product.Name} className='img-small' />
-          ))}
+          <div className="images">
+            {lastOrder.products.map((product, index) => (
+              <img
+                key={index}
+                src={product.Images[0]}
+                alt={product.Name}
+                className="img-small"
+              />
+            ))}
           </div>
         </div>
-    )}
+      )}
     </div>
   );
 };

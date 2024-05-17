@@ -1,13 +1,36 @@
+body {
+  overflow-x: hidden;
+}
+
+.super-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100%;
+}
+
+.centering-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: space-between;
+  min-height: 100vh;
+  width: 70%;
+}
+
+.filter {
+  margin-top: 100px;
+}
+
 .search-bar {
   width: 50%;
   padding: 10px;
   box-sizing: border-box;
   border: 1px solid rgba(124, 117, 117, 0.685);
   border-radius: 50px;
-  margin-bottom: 20px;
   margin-right: 200px;
-  margin-left: 200px;
-  margin-top: 100px;
   font-size: 20px;
   background-color: rgba(0, 0, 0, 0.7);
   color: white;
@@ -18,8 +41,8 @@
   flex-wrap: wrap;
   gap: 80px;
   padding-top: 100px;
-  padding-left: 90px;
   justify-content: center;
+  margin-bottom: 100px;
 }
 
 .product-box {
@@ -37,21 +60,16 @@
 .product-image {
   width: 100%;
   height: auto;
-  transition:
-    transform 0.5s,
-    filter 0.5s; /* Transition for transform and filter */
+  transition: transform 0.5s, filter 0.5s;
 }
 
 .product-image:hover {
-  transform: rotateY(180deg); /* Flip the image on hover */
-  filter: blur(5px); /* Apply blur effect on hover */
+  transform: rotateY(180deg);
+  filter: blur(5px);
 }
 .product-box:hover ~ .product-image-container .product-image {
-  transform: rotateY(
-    180deg
-  ); /* Flip the image when .product-details is hovered */
-  filter: blur(5px); /* Apply blur effect on hover */
-
+  transform: rotateY(180deg);
+  filter: blur(5px);
 }
 .product-info {
   padding: 10px;
@@ -127,6 +145,7 @@
   border: none;
   padding: 8px 12px;
   cursor: pointer;
+  margin-bottom: 10px;
 }
 
 .filter-dropdown:hover {
@@ -190,12 +209,6 @@
   border: none;
   padding: 15px 20px;
   cursor: pointer;
-  margin-right: 300px;
-  margin-top: 70px;
-}
-
-.filter-container {
-  margin-left: 0px;
 }
 
 .filter-label {
@@ -264,12 +277,15 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 .price-filter-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
   background: hsl(180, 9%, 93%);
-  border-radius: 12px;
+  border-radius: 50px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  padding: 10px;
   width: 300px;
-  margin-left: 900px;
   /*margin-t*/
   text-align: center;
 }
@@ -340,28 +356,22 @@
 }
 
 .addproduct-button {
-  margin-left: 20%;
-  position: absolute;
-  margin-top: -2.6%;
+  margin-top: 10px;
 }
 
-.right{
+.right {
   text-align: right;
   margin: 10px;
- 
 }
 
-/* CSS */
 .button-17 {
   align-items: center;
   appearance: none;
   background-color: #fff;
   border-radius: 24px;
   border-style: none;
-  box-shadow:
-    rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
-    rgba(0, 0, 0, 0.14) 0 6px 10px 0,
-    rgba(0, 0, 0, 0.12) 0 1px 18px 0;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 3px 5px -1px,
+    rgba(0, 0, 0, 0.14) 0 6px 10px 0, rgba(0, 0, 0, 0.12) 0 1px 18px 0;
   box-sizing: border-box;
   color: #3c4043;
   cursor: pointer;
@@ -380,10 +390,8 @@
   position: relative;
   text-align: center;
   text-transform: none;
-  transition:
-    box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 15ms linear 30ms,
-    transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 15ms linear 30ms, transform 270ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
@@ -398,8 +406,7 @@
 }
 
 .button-17:active {
-  box-shadow:
-    0 4px 4px 0 rgb(60 64 67 / 30%),
+  box-shadow: 0 4px 4px 0 rgb(60 64 67 / 30%),
     0 8px 12px 6px rgb(60 64 67 / 15%);
   outline: none;
 }
@@ -410,32 +417,27 @@
 }
 
 .button-17:not(:disabled) {
-  box-shadow:
-    rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
     rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
 }
 
 .button-17:not(:disabled):hover {
-  box-shadow:
-    rgba(60, 64, 67, 0.3) 0 2px 3px 0,
+  box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0,
     rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
 }
 
 .button-17:not(:disabled):focus {
-  box-shadow:
-    rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
     rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
 }
 
 .button-17:not(:disabled):active {
-  box-shadow:
-    rgba(60, 64, 67, 0.3) 0 4px 4px 0,
+  box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0,
     rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
 }
 
 .button-17:disabled {
-  box-shadow:
-    rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0,
     rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
 }
 
@@ -498,4 +500,46 @@
 
 .button-80:not(:disabled):active {
   transform: translateY(0.125rem);
+}
+
+@media (max-width: 768px) {
+  .price-filter-container {
+    width: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .filter-dropdown {
+    margin: 10px 0;
+  }
+
+  .search-filter-container {
+    margin-top: 80px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .price-filter-container h2 {
+    font-size: 20px;
+  }
+
+  .search-filter-container {
+    width: 100%;
+  }
+
+  .search-bar {
+    width: 50%; /* Adjust as needed */
+    margin: 10px 0;
+  }
+
+  .filter {
+    width: 90%; /* Adjust as needed */
+    margin: 10px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
