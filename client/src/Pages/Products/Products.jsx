@@ -111,8 +111,7 @@ const Products = ({
               id="type-filter"
               value={filterType}
               onChange={handleFilterChange}
-              className="filter-dropdown"
-            >
+              className="filter-dropdown">
               <option value="">All</option>
               <option value="Apparel">Apparel</option>
               <option value="Cars">Cars</option>
@@ -149,10 +148,22 @@ const Products = ({
                   className="product-image"
                 />
                 <div className="product-info">
-                  <p className="product-name">{product.Name}</p>
-                  <p className="product-type">Type: {product.Category}</p>
-                  <p className="product-price">Price: {product.Price + "$"}</p>
-                  <p className="product-stock">Stock: {product.Stock}</p>
+                  <ul className="products-list">
+                    <li key={product._id} className="product-item">
+                      <p className="product-name">Name: {product.Name}</p>
+                    </li>
+                    <li>
+                      <p className="product-type">Type: {product.Category}</p>
+                    </li>
+                    <li>
+                      <p className="product-price">
+                        Price: {product.Price + "$"}
+                      </p>
+                    </li>
+                    <li>
+                      <p className="product-stock">Stock: {product.Stock}</p>
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -170,8 +181,7 @@ const Products = ({
                       onClick={() => {
                         handleOnClick(product);
                         console.log(product.Name);
-                      }}
-                    >
+                      }}>
                       <FontAwesomeIcon icon={faEllipsisVertical} />
                     </button>
                   </div>
@@ -189,8 +199,7 @@ const Products = ({
         <div
           className={`bottom-band ${
             boughtProducts.length > 0 ? "visible" : ""
-          }`}
-        >
+          }`}>
           <span>{`You have ${boughtProducts.length} items in your cart`}</span>
           <Link to="/orders">
             <button onClick={() => {}}>Checkout</button>
@@ -198,8 +207,7 @@ const Products = ({
           <button
             onClick={() => {
               setBoughtProducts([]);
-            }}
-          >
+            }}>
             Cancel
           </button>
         </div>

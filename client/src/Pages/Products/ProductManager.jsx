@@ -245,11 +245,24 @@ const ProductManager = ({
                 alt={theProduct.Name}
                 className="product-image"
               />
+
               <div className="product-info">
-                <p className="product-name">{theProduct.Name}</p>
-                <p className="product-type">Type: {theProduct.Category}</p>
-                <p className="product-price">Price: {`${theProduct.Price}$`}</p>
-                <p className="product-stock">Stock: {theProduct.Stock}</p>
+                <ul className="products-list">
+                  <li key={theProduct._id} className="product-item">
+                    <p className="product-name">Name: {theProduct.Name}</p>
+                  </li>
+                  <li>
+                    <p className="product-type">Type: {theProduct.Category}</p>
+                  </li>
+                  <li>
+                    <p className="product-price">
+                      Price: {theProduct.Price + "$"}
+                    </p>
+                  </li>
+                  <li>
+                    <p className="product-stock">Stock: {theProduct.Stock}</p>
+                  </li>
+                </ul>
               </div>
             </div>
             <div className="product-details">
@@ -281,7 +294,7 @@ const ProductManager = ({
               </button>
             </div>
           )}
-          {isAdmin === "true" && edits}
+          {isAdmin === "true" && editState && edits}
         </div>
       </div>
     </div>
