@@ -5,7 +5,7 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("userData"));
   const [lastOrder, setLastOrder] = useState(null);
- /* useEffect(() => {
+  /* useEffect(() => {
     const getOrders = async () => {
       const orders = await fetch("http://localhost:3000/user/getOrders", {
         method: "POST",
@@ -34,11 +34,11 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
         method: "POST",
         headers: {
           Authorization: localStorage.getItem("token"),
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          customerID: user._id
-        })
+          customerID: user._id,
+        }),
       });
 
       if (orders.ok) return await orders.json();
@@ -93,10 +93,13 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
   console.log(orders);
   return (
     <div className="trying">
-      {localStorage.getItem("isGuest") == 'false' && orders.map((order, index) => (
+      {localStorage.getItem("isGuest") == "false" &&
+        orders.map((order, index) => (
           <div className="order" key={order._id}>
             <h1>Order {index + 1}</h1>
-            <h3>Order by {order.orderer}</h3>
+            {localStorage.getItem("isAdmin") === "true" && (
+              <h3>Order by {order.orderer}</h3>
+            )}
             <h3>created at {order.createdAt.substring(0, 10)}</h3>
             <h3>Total price: {order.total}$</h3>
             <h3>Products</h3>
