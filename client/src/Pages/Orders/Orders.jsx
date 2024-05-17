@@ -96,7 +96,7 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
       {localStorage.getItem("isGuest") == 'false' && orders.map((order, index) => (
           <div className="order" key={order._id}>
             <h1>Order {index + 1}</h1>
-            <h3>Order by {user.Email}</h3>
+            <h3>Order by {order.orderer}</h3>
             <h3>created at {order.createdAt.substring(0, 10)}</h3>
             <h3>Total price: {order.total}$</h3>
             <h3>Products</h3>
