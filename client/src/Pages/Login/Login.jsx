@@ -3,13 +3,13 @@ import "./Login.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import gsap from "gsap";
-import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [emailFocused, setEmailFocused] = useState(false);
   const [emailValue, setEmailValue] = useState("");
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [passwordValue, setPasswordValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const emailRef = useRef(null);
   const passwordRef = useRef(null);
@@ -41,8 +41,6 @@ const Login = () => {
       }
     );
   }, []);
-
-  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -76,7 +74,13 @@ const Login = () => {
         } else if (err.code === "ECONNABORTED") {
           console.log("Timeout error", err.message);
         } else {
-          console.log("Some other error: ", err.message);
+          if (err.response && err.response.status === 401) {
+            setErrorMessage("Invalid Username or Password");
+          } else if (err.response && err.response.status === 500) {
+            setErrorMessage("Server error");
+          } else {
+            console.log("Some other error: ", err.message);
+          }
         }
       });
   };
@@ -119,6 +123,7 @@ const Login = () => {
             onBlur={() => setPasswordFocused(false)}
             onChange={(e) => setPasswordValue(e.target.value)}
           />
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
         </div>
         <p ref={registerRef} className="register-prompt">
           Not yet registered? <Link to="/register">Register</Link>

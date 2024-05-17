@@ -26,8 +26,12 @@ const register = async (req, res) => {
     const success = await newCustomer.save();
     return res.status(201).send(success);
   } catch (error) {
-    console.log("First " + error.message);
-    res.status(500).send({ message: error.message });
+    if (error.message.includes("E11000 duplicate key error")) {
+      res.status(400).json({ message: "Email already registered" });
+    } else {
+      console.log(`First ${error.message}`);
+      res.status(500).json({ message: error.message });
+    }
   }
 };
 
@@ -75,7 +79,7 @@ const login = async (req, res) => {
       if (!user) return res.status(401).json({ message: "Invalid username" });
     }
     const passwordMatch = await user.comparePassword(password);
-    console.log("The password match " + passwordMatch);
+    console.log(`The password match ${passwordMatch}`);
     if (passwordMatch) {
       //const accessToken = jwt.sign({ username: user.Email }, SECRET_KEY);
       const payload = { role: role };
