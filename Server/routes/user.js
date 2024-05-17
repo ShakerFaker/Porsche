@@ -179,25 +179,20 @@ router.get("/getOrder", async (req, res) => {
   }
 });
 
-router.get("/getOrders", authenticateToken, async (req, res) => {
-  if (req.user.role === "admin") {
+router.post("/getOrders", authenticateToken, async (req, res) => {
     try {
-      // const client = await customer.findOne({_id: req.body.customerID});
-      // const orders = client.Orders;
-      // const content = [];
-      // for(let i = 0; i < orders.length; i++){
-      //     const o = await order.findOne({_id: orders[i]});
-      //     if(!o)
-      //         continue;
-      //     content.push(o);
-      // }
-      const orders = await order.find();
-      return res.status(200).send(orders);
+      if(req.user.role == 'admin'){
+        const orders = await order.find();
+        return res.status(200).send(orders);
+      }
+      else if(req.user.role == 'user'){
+        const orders = await order.find({ customerID: req.body.customerID });
+        return res.status(200).send(orders);
+      }
     } catch (error) {
       console.log(error.mesage);
       return res.status(500).send({ message: error.message });
     }
-  } else return res.status(403).send({ message: "Unauthorized operation" });
 });
 
 //END OF SHAKER PART
