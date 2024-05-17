@@ -12,6 +12,7 @@
   width: 594.25px;
   margin: auto; /* Center the input container */
   display: flex;
+  flex-direction: column;
 }
 
 .input-label {
@@ -25,6 +26,10 @@
 .input-label.focused {
   transform: translateY(-35px);
   font-size: 0.8em;
+}
+
+.error-message {
+  color: red;
 }
 
 .catchy-text {
@@ -64,6 +69,10 @@
   margin-bottom: 48px;
 }
 
+.input-container:last-of-type input {
+  margin-bottom: 0 !important;
+}
+
 .login-form button {
   text-align: center;
   border-radius: 30px;
@@ -92,6 +101,10 @@
 
 .register-prompt a {
   color: white;
+}
+
+.input {
+  margin-bottom: 0;
 }
 
 @media screen and (max-width: 600px) {

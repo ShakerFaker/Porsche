@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import "./Register.css";
+import "../Login/Login.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import gsap from "gsap";
@@ -15,6 +15,7 @@ const Register = () => {
   const [phoneValue, setPhoneValue] = useState("");
   const [addressFocused, setAddressFocused] = useState(false);
   const [addressValue, setAddressValue] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const textRef = useRef(null);
   const subtextRef = useRef(null);
@@ -62,7 +63,7 @@ const Register = () => {
         Name: nameValue,
         Email: emailValue,
         Password: passwordValue,
-        'Phone number': phoneValue,
+        "Phone number": phoneValue,
         Address: addressValue,
       },
     };
@@ -71,7 +72,19 @@ const Register = () => {
         window.location.href = "/login";
       })
       .catch((err) => {
-        console.log("Error: ", err.message);
+        if (axios.isCancel(err)) {
+          console.log("Request canceled", err.message);
+        } else if (err.code === "ECONNABORTED") {
+          console.log("Timeout error", err.message);
+        } else {
+          if (err.response && err.response.status === 400) {
+            setErrorMessage("Email is already registered");
+          } else if (err.response && err.response.status === 500) {
+            setErrorMessage("Server error");
+          } else {
+            console.log("Some other error: ", err.message);
+          }
+        }
       });
   };
 
@@ -158,6 +171,7 @@ const Register = () => {
             onBlur={() => setAddressFocused(false)}
             onChange={(e) => setAddressValue(e.target.value)}
           />
+          {errorMessage && <div className="error-message">{errorMessage}</div>}
         </div>
         <p ref={loginRef} className="register-prompt">
           Already registered? <Link to="/login">Login</Link>
