@@ -5,12 +5,21 @@ import { Link } from "react-router-dom";
 
 const Menu = ({ isOpen, isClosing, onClose }) => {
   const menuRef = useRef(null);
-  const menuItems = {
-    HOME: "/",
-    ABOUT: "/",
-    "SHIFT INTO HIGH GEAR": "/products",
-    ORDERS: "/orders",
-  };
+  const isGuest = localStorage.getItem("isGuest");
+  let menuItems;
+  if (isGuest === "false")
+    menuItems = {
+      HOME: "/",
+      ABOUT: "/",
+      "SHIFT INTO HIGH GEAR": "/products",
+      ORDERS: "/orders",
+    };
+  else
+    menuItems = {
+      HOME: "/",
+      ABOUT: "/",
+      "SHIFT INTO HIGH GEAR": "/products",
+    };
   const menuItemRefs = Object.keys(menuItems).reduce((acc, item) => {
     acc[item] = useRef(null);
     return acc;

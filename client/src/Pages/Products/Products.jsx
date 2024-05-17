@@ -4,7 +4,20 @@ import "./Products.css";
 import ProductManager from "./ProductManager";
 import { useNavigate } from "react-router-dom";
 
-const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts }) => {
+import { config } from "@fortawesome/fontawesome-svg-core";
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCoffee } from "@fortawesome/free-solid-svg-icons";
+import { faEllipsisVertical } from "@fortawesome/free-solid-svg-icons"; // Import the ellipsis icon
+
+config.autoAddCss = false; // Manually include CSS for better control
+
+const Products = ({
+  theProduct,
+  setTheProduct,
+  boughtProducts,
+  setBoughtProducts,
+}) => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
@@ -15,6 +28,7 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
     min: 0,
     max: 10000000,
   });
+  const isAdmin = localStorage.getItem("isAdmin");
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -75,6 +89,11 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
     console.log(product.Name);
   };
 
+  const handleAdd = () => {
+    navigate("/addProduct");
+  };
+
+ 
 
   return (
     <div>
@@ -90,8 +109,7 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
           id="type-filter"
           value={filterType}
           onChange={handleFilterChange}
-          className="filter-dropdown"
-        >
+          className="filter-dropdown">
           <option value="">All</option>
           <option value="Apparel">Apparel</option>
           <option value="Cars">Cars</option>
@@ -109,6 +127,13 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
           value={priceRange.min}
           onChange={handlePriceChange}
         />
+      </div>
+      <div className="addproduct-button">
+        {isAdmin === "true" && (
+          <button className="button-17" onClick={handleAdd}>
+            Add Product
+          </button>
+        )}
       </div>
       <div className="products-container">
         {filteredProducts.map((product) => (
@@ -132,28 +157,40 @@ const Products = ({ theProduct, setTheProduct, boughtProducts, setBoughtProducts
                 Description: {product.Description}
               </p>
             </div>
-            <Link to="/ProductManager" className="editProduct">
+            { (isAdmin === 'true'|| product.Stock > 0) 
+              &&
+              <Link to="/ProductManager" className="editProduct">
               {" "}
-              <button
-                className="more"
-                onClick={() => {
-                  handleOnClick(product);
-                  console.log(product.Name);
-                }}
-              >
-                More
-              </button>
+              <div className="right">
+                <button
+                  className="more button-80"
+                  onClick={() => {
+                    handleOnClick(product);
+                    console.log(product.Name);
+                  }}>
+                  <FontAwesomeIcon icon={faEllipsisVertical} />
+                </button>
+              </div>
             </Link>
+            
+            } 
+            {(isAdmin === 'false' && product.Stock <= 0) && <div className="right">  <button className="button-80">Not Available</button></div>}
           </div>
         ))}
       </div>
-      <div className={`bottom-band ${boughtProducts.length > 0 ? 'visible' : ''}`}>
+      <div
+        className={`bottom-band ${boughtProducts.length > 0 ? "visible" : ""}`}>
         <span>{`You have ${boughtProducts.length} items in your cart`}</span>
         <Link to="/orders">
-        <button onClick={() => {}}>Checkout</button>
+          <button onClick={() => {}}>Checkout</button>
         </Link>
-        <button onClick={() => {setBoughtProducts([])}}>Cancel</button>
-    </div>
+        <button
+          onClick={() => {
+            setBoughtProducts([]);
+          }}>
+          Cancel
+        </button>
+      </div>
     </div>
   );
 };
