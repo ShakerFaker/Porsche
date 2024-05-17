@@ -7,7 +7,7 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 80%;
+  width: 100%;
 }
 
 .centering-container {
@@ -16,7 +16,7 @@ body {
   justify-content: top;
   align-items: space-between;
   min-height: 100vh;
-  width: 100%;
+  width: 80%;
 }
 
 .filter {
