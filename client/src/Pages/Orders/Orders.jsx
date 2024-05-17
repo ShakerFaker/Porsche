@@ -5,26 +5,51 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
   const [orders, setOrders] = useState([]);
   const user = JSON.parse(localStorage.getItem("userData"));
   const [lastOrder, setLastOrder] = useState(null);
+ /* useEffect(() => {
+    const getOrders = async () => {
+      const orders = await fetch("http://localhost:3000/user/getOrders", {
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+        },
+        body: JSON.stringify({
+          customerID: user._id
+        })
+      });
+
+      if (orders.ok) return await orders.json();
+      throw new Error(orders);
+    };
+    (async () => {
+      const result = await getOrders();
+      setOrders(result);
+    })();
+
+    console.log(orders);
+  }, [lastOrder]);*/
+
   useEffect(() => {
-    if (localStorage.getItem("isAdmin") === "true") {
-      const getOrders = async () => {
-        const orders = await fetch("http://localhost:3000/user/getOrders", {
-          method: "GET",
-          headers: {
-            Authorization: localStorage.getItem("token"),
-          },
-        });
+    const getOrders = async () => {
+      const orders = await fetch("http://localhost:3000/user/getOrders", {
+        method: "POST",
+        headers: {
+          Authorization: localStorage.getItem("token"),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          customerID: user._id
+        })
+      });
 
-        if (orders.ok) return await orders.json();
-        throw new Error("I'm sad wa rab el 3ebad");
-      };
-      (async () => {
-        const result = await getOrders();
-        setOrders(result);
-      })();
+      if (orders.ok) return await orders.json();
+      throw new Error(orders);
+    };
 
-      console.log(orders);
-    }
+    (async () => {
+      const result = await getOrders();
+      console.log("The result is: " + result);
+      setOrders(result);
+    })();
   }, []);
 
   const makeOrder = async () => {
@@ -65,11 +90,10 @@ const Orders = ({ boughtProducts, setBoughtProducts }) => {
   // .catch(error => console.log("HELP MEEEEEEEEE"));
   // console.log(orders.length);
 
-  console.log(user);
+  console.log(orders);
   return (
     <div className="trying">
-      {localStorage.getItem("isAdmin") === "true" &&
-        orders.map((order, index) => (
+      {localStorage.getItem("isGuest") == 'false' && orders.map((order, index) => (
           <div className="order" key={order._id}>
             <h1>Order {index + 1}</h1>
             <h3>Order by {user.Email}</h3>
