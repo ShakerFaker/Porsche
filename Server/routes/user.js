@@ -183,7 +183,19 @@ router.post("/getOrders", authenticateToken, async (req, res) => {
     try {
       if(req.user.role == 'admin'){
         const orders = await order.find();
-        return res.status(200).send(orders);
+        const updatedOrders = [];
+        for(let i = 0; i < orders.length; i++){
+          const theCustomer = await customer.findOne({ _id: orders[i].customerID });
+          let updatedOrder = {
+            customerID: orders[i].customerID,
+            products: orders[i].products,
+            createdAt: orders[i].createdAt,
+            status: orders[i].status,
+            orderer: theCustomer.Email
+          }
+          updatedOrders.push(updatedOrder);
+        }
+        return res.status(200).send(updatedOrders);
       }
       else if(req.user.role == 'user'){
         const orders = await order.find({ customerID: req.body.customerID });
