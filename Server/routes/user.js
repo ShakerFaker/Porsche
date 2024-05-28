@@ -7,9 +7,110 @@ const jwt = require("jsonwebtoken");
 const authenticateToken = require("../middlewares/auth");
 require("dotenv").config();
 const SECRET_KEY = process.env.SECRET_KEY; // Change this to a secure secret key
-
+const { Redis } = require('@upstash/redis');
 const router = express.Router();
 
+const redis = new Redis({
+  url: process.env.REDIS_URL,
+  token: process.env.REDIS_TOKEN,
+});
+
+//cache functions using redis 
+
+const fetchProductByNameFromMongo = async (name) => {
+  try {
+    const products = await product.find({ Name: name }).sort({ Name: 1 }); // Fetch products from MongoDB
+    return products;
+  } catch (err) {
+    throw new Error("Could not fetch products from MongoDB");
+  }
+};
+
+const fetchProductByIdFromMongo = async (id) => {
+  try {
+    const productDetails = await product.findById(id); // Fetch product details from MongoDB
+    return productDetails;
+  } catch (err) {
+    throw new Error("Could not fetch product details from MongoDB");
+  }
+};
+
+const getProductFromCache = async (key) => {
+  try {
+    const cachedData = await redis.get(key); // Check if data exists in cache
+    return JSON.parse(cachedData);
+  } catch (error) {
+    throw new Error("Error fetching data from cache");
+  }
+};
+
+const setProductToCache = async (key, data, ttlInSeconds) => {
+  try {
+    await redis.set(key, JSON.stringify(data)); // Set data in cache
+    await redis.expire(key, ttlInSeconds); // Set expiration time
+  } catch (error) {
+    throw new Error("Error setting data in cache");
+  }
+};
+
+
+//NAGAR & MUHAMMAD
+
+//Public APIs
+// Endpoint to get all products
+
+router.get("/Products", async (req, res) => {
+  const cachedData = await redis.get('all_products');
+  if(cachedData){
+    console.log("Cache hit: all_products");
+    await setProductToCache('all_products', cachedData,600);
+    return res.status(200).json(cachedData);
+  } 
+  else{  
+  try {
+        const products = await product.find().sort({ Name: 1 }); // Use Mongoose to find and sort
+        console.log("Cache miss: all_products");
+        await setProductToCache('all_products', products,400);
+        res.status(200).json(products);
+      } catch (err) {
+        res.status(500).json({ error: "Could not fetch products" });
+      }
+    }
+});
+
+// Endpoint to search for products by name
+router.get("/products/search", async (req, res) => {
+  const { Name } = req.body; // Get name from query parameter
+  
+  if (!Name) {
+    return res.status(400).json({ error: "Name parameter is required" });
+  }
+
+  try {
+    const products = await product.find({ Name: Name }).sort({ Name: 1 }); // Use Mongoose to find and sort
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(500).json({ error: "Could not fetch products" });
+  }
+});
+
+// Endpoint to get details of a specific product by ID
+router.get("/Products/:id", async (req, res) => {
+  const id = req.body._id;
+
+  try {
+    const productDetails = await product.findById(id); // Use Mongoose to find by ID
+
+    if (!productDetails) {
+      return res.status(404).json({ error: "Product not found" });
+    }
+
+    res.status(200).json(productDetails);
+  } catch (err) {
+    res.status(500).json({ error: "Could not fetch product details" });
+  }
+});
+//END OF NAGAR & MUHAMMAD PART
 
 
 
@@ -209,53 +310,7 @@ router.post("/getOrders", authenticateToken, async (req, res) => {
 
 //END OF SHAKER PART
 
-//NAGAR & MUHAMMAD
 
-//Public APIs
-//app.use(bodyParser.json());
-// Endpoint to get all products
-router.get("/Products", async (req, res) => {
-  try {
-    const products = await product.find().sort({ Name: 1 }); // Use Mongoose to find and sort
-    res.status(200).json(products);
-  } catch (err) {
-    res.status(500).json({ error: "Could not fetch products" });
-  }
-});
-
-// Endpoint to search for products by name
-router.get("/products/search", async (req, res) => {
-  const { Name } = req.body; // Get name from query parameter
-
-  if (!Name) {
-    return res.status(400).json({ error: "Name parameter is required" });
-  }
-
-  try {
-    const products = await product.find({ Name: Name }).sort({ Name: 1 }); // Use Mongoose to find and sort
-    res.status(200).json(products);
-  } catch (err) {
-    res.status(500).json({ error: "Could not fetch products" });
-  }
-});
-
-// Endpoint to get details of a specific product by ID
-router.get("/Products/:id", async (req, res) => {
-  const id = req.body._id;
-
-  try {
-    const productDetails = await product.findById(id); // Use Mongoose to find by ID
-
-    if (!productDetails) {
-      return res.status(404).json({ error: "Product not found" });
-    }
-
-    res.status(200).json(productDetails);
-  } catch (err) {
-    res.status(500).json({ error: "Could not fetch product details" });
-  }
-});
-//END OF NAGAR & MUHAMMAD PART
 
 //EXTRA APIS
 
