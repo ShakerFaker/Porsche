@@ -10,14 +10,14 @@ const Menu = ({ isOpen, isClosing, onClose }) => {
   if (isGuest === "false")
     menuItems = {
       HOME: "/",
-      ABOUT: "/",
+      ABOUT: "/about",
       "SHIFT INTO HIGH GEAR": "/products",
       ORDERS: "/orders",
     };
   else
     menuItems = {
       HOME: "/",
-      ABOUT: "/",
+      ABOUT: "/about",
       "SHIFT INTO HIGH GEAR": "/products",
     };
   const menuItemRefs = Object.keys(menuItems).reduce((acc, item) => {

@@ -10,6 +10,7 @@ import ProductManager from "./Pages/Products/ProductManager";
 import SignOut from "./Pages/SignOut/SignOut";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import AddProduct from "./Pages/Products/AddProduct";
+import About from "./Pages/About/About"; // Make sure the path is correct
 
 const App = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -91,6 +92,7 @@ const App = () => {
             path="/addProduct" element={<AddProduct/>}
             />
             <Route path="/signout" element={<SignOut />} />
+            <Route path="/about" element={<About />} />
           </Routes>
         </div>
       </div>

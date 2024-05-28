@@ -1,0 +1,214 @@
+/* Global styles */
+.about-container {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .company-history,
+  .mission-statement,
+  .team,
+  .History-statement,
+  .car-statement {
+    margin-bottom: 40px;
+    color: #a4aeb7;
+  }
+  
+  h2 {
+    margin-top: 50px;
+    font-size: 2em;
+    margin-bottom: 20px;
+    color: white;
+    text-align: center;
+  }
+  
+  p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    color: #89949d;
+  }
+  
+  /* Team styles */
+  .team-members {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  
+  .team-member {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .team-member:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+  
+  .team-member-image-placeholder {
+    width: 100%;
+    height: 200px;
+    background: #e9ecef;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5em;
+    color: #adb5bd;
+  }
+  
+  .team-member h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    color: #343a40;
+  }
+  
+  .team-member p {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #6c757d;
+  }
+  
+  .team-member a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1em;
+    transition: color 0.3s ease;
+  }
+  
+  .team-member a:hover {
+    color: #0056b3;
+  }
+  
+  /* Section styles */
+  .section-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+  }
+  
+  .section-image {
+    flex: 1;
+    margin-right: 20px;
+    margin-top: 80px; 
+  }
+  
+  .section-text {
+    
+    flex: 2;
+  }
+  
+  .section-image img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  .image-left .section-image {
+    margin-right: 20px;
+    margin-top: 80px;
+  }
+  
+  .image-right .section-image {
+    margin-left: 20px;
+  }
+  
+  /* Add space between sections */
+  .about-container > section {
+    margin-bottom: 150px; /* Increased space between sections */
+  }
+  
+  /* Adjust layout for Mission and History sections */
+  .mission-statement .section-content,
+  .History-statement .section-content {
+    flex-direction: row-reverse; /* Move images to the right */
+  }
+  
+  /* Ensure smooth alignment of image and text */
+  .section-image,
+  .section-text {
+    flex: 1; /* Equal width for both image and text */
+  }
+  
+  /* Increase size of team boxes */
+  .team-member {
+    padding: 50px; /* Increased padding for team boxes */
+  }
+  
+  /* Increase size of section images */
+  .section-image img {
+    margin-bottom: 90px;
+    width: 100%;
+    max-width: 1500px; /* Increase maximum width of section images */
+    height: auto;
+    border-radius: 8px;
+  }
+  
+  /* Increase size of team member images */
+  .team-member-image img {
+    width: 100%;
+    width: 150px; /* Increase maximum width of team member images */
+    height: auto;
+    border-radius: 8px;
+  }
+  .team-member {
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column; /* Change the direction to column */
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  .team-member-info {
+    margin-top: 20px; /* Add margin between image and text/link */
+    text-align: center; /* Center align text and link */
+  }
+  
+  .team-member a {
+    color: #007bff;
+    text-decoration: none;
+    font-size: 1em;
+    transition: color 0.3s ease;
+  }
+  
+  .team-member a:hover {
+    color: #0056b3;
+  }
+  
+  .team-member-image img {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    border-radius: 8px;
+  }
+  .map-container {
+    width: 100%; /* Ensure the container spans the full width */
+    height: 400px; /* Set a fixed height for the map container */
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+  }
+  
+  #map {
+    width: 100%; /* Make the map fill the entire container */
+    height: 100%; /* Make the map fill the entire container */
+  }
+  
+  
