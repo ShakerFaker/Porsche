@@ -4,7 +4,7 @@ import './About.css';
 import { Link } from 'react-scroll';
 import CEOImage from '../../assets/Nagar.jpg';
 import CTOImage from '../../assets/alaaa.jpg';
-import COOImage from '../../assets/Sarah.jpeg';
+//import COOImage from '../../assets/Sarah.jpeg';
 import CarsImage from '../../assets/Cars.jpeg';
 import MissionImage from '../../assets/vision.jpg';
 import CompanyImage from '../../assets/company.jpg';
@@ -38,7 +38,7 @@ const About = () => {
   const teamMembers = [
     { name: 'Abdelrahman El-Nagar', role: 'CEO', linkedin: 'https://www.linkedin.com/in/abdelrahman-elnagar/', image: CEOImage },
     { name: 'Alaa Ashraf', role: 'CTO', linkedin: 'https://www.linkedin.com/in/alaa-ashraf-5067a2229/', image: CTOImage },
-    { name: 'Sarah El-Feel', role: 'COO', linkedin: 'https://www.linkedin.com/in/sarahelfeel/', image: COOImage },
+    { name: 'Sarah El-Feel', role: 'COO', linkedin: 'https://www.linkedin.com/in/sarahelfeel/' },
     { name: 'Mohammad Moharram', role: 'CFO', linkedin: 'https://www.linkedin.com/in/mohammad-moharram-84ab6127b/'},
     { name: 'Shaker Faker', role: 'CMO', linkedin: 'https://github.com/ShakerFaker', }
   ];

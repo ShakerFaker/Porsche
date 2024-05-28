@@ -2,6 +2,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const PORT = process.env.PORT || 3000;
 const connectDB = require("./db");
+//const connectCache = require("./cache");
 const customer = require("./models/Customer");
 const product = require("./models/Product");
 const order = require("./models/Order");
@@ -20,6 +21,7 @@ app.use(express.json());
 
 
 connectDB();
+//connectCache();
 
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
